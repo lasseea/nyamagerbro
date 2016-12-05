@@ -17,9 +17,9 @@ class CreateJobsTable extends Migration
             $table->increments('id');
             $table->integer('shop_id');
             $table->timestamps();
-            $table->text('title');
-            $table->text('brief_description');
-            $table->text('full_description');
+            $table->string('title');
+            $table->string('brief_description', 500);
+            $table->string('full_description', 3000);
         });
     }
 

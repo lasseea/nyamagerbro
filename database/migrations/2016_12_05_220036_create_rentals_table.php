@@ -16,11 +16,11 @@ class CreateRentalsTable extends Migration
         Schema::create('rentals', function (Blueprint $table) {
             $table->increments('id');
             $table->timestamps();
-            $table->text('title');
-            $table->text('brief_description');
-            $table->text('full_description');
-            $table->text('room_img_link');
-            $table->text('address');
+            $table->string('title');
+            $table->string('brief_description', 500);
+            $table->string('full_description', 3000);
+            $table->string('room_img_link', 500);
+            $table->string('address');
         });
     }
 
