@@ -17,7 +17,9 @@ class CreateShopTypesTable extends Migration
             $table->increments('id');
             $table->timestamps();
             $table->string('shop_type');
-            $table->integer('shop_id');
+            $table->integer('shop_id')->unsigned();
+
+            $table->foreign('shop_id')->references('id')->on('shops');
         });
     }
 

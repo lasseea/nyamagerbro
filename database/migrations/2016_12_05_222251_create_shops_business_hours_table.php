@@ -15,11 +15,13 @@ class CreateShopsBusinessHoursTable extends Migration
     {
         Schema::create('shops_business_hours', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('shop_id');
+            $table->integer('shop_id')->unsigned();
             $table->timestamps();
-            $table->integer('day_of_week');
+            $table->integer('day_of_week')->unsigned();
             $table->time('start_hour');
-            $table->integer('end_hour');
+            $table->integer('end_hour')->usigned();
+
+            $table->foreign('shop_id')->references('id')->on('shops');
         });
     }
 
