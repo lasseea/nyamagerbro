@@ -22,6 +22,7 @@ class CreateShopsTable extends Migration
             $table->string('description', 1000);
             $table->string('logo_img_link', 500);
             $table->string('website');
+            $table->string('google_maps_url', 1000);
         });
     }
 
