@@ -4,17 +4,14 @@
         <nav>
                     <ul class="nav nav-justified">
                     <!-- Authentication Links -->
+                        <li class="nav-item"><a class="nav-link" href="{{ url('/butikker') }}"><i class="fa fa-shopping-bag" aria-hidden="true"></i> Butikker</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{{ url('/events') }}"><i class="fa fa-calendar" aria-hidden="true"></i> Nyheder & Events</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{{ url('/kultur') }}"><i class="fa fa-heart" aria-hidden="true"></i> Historie & Kultur</a></li>
                         @if (Auth::guest())
-                            <li class="nav-item"><a class="nav-link" href="{{ url('/butikker') }}"><i class="fa fa-shopping-bag" aria-hidden="true"></i> Butikker</a></li>
-                            <li class="nav-item"><a class="nav-link" href="{{ url('/events') }}"><i class="fa fa-calendar" aria-hidden="true"></i> Nyheder & Events</a></li>
-                            <li class="nav-item"><a class="nav-link" href="{{ url('/kultur') }}"><i class="fa fa-heart" aria-hidden="true"></i> Historie & Kultur</a></li>
                             <li class="nav-item"><a class="nav-link" href="{{ url('/login') }}"><i class="fa fa-sign-in" aria-hidden="true"></i> Log ind</a></li>
                             <li class="nav-item"><a class="nav-link" href="{{ url('/register') }}"><i class="fa fa-user-circle" aria-hidden="true"></i> Tilmeld dig</a></li>
                         @else
-                            <li class="nav-item"><a class="nav-link" href="{{ url('/butikker') }}">Butikker</a></li>
-                            <li class="nav-item"><a class="nav-link" href="{{ url('/events') }}">Nyheder & Events</a></li>
-                            <li class="nav-item"><a class="nav-link" href="{{ url('/kultur') }}">Historie & Kultur</a></li>
-                            <li class="nav-item"><a class="nav-link" href="{{ url('/profil') }}">Min profil</a></li>
+                            <li class="nav-item"><a class="nav-link" href="{{ url('/profil') }}"><i class="fa fa-user-circle" aria-hidden="true"></i> Min profil</a></li>
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ url('/logout') }}"
                                    onclick="event.preventDefault();
