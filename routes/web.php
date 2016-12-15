@@ -12,6 +12,7 @@
 */
 
 Route::get('/', 'HomeController@index');
+Route::get('/home', 'HomeController@index');
 
 Route::get('/butikker', 'PagesController@shops');
 Route::get('/events', 'PagesController@events');
@@ -28,6 +29,9 @@ Route::get('admin/butikker', 'AdminController@shops');
 Route::get('admin/jobs', 'AdminController@jobs');
 Route::get('admin/udleje', 'AdminController@rental');
 Route::get('admin/events', 'AdminController@events');
+
+Route::get('admin/billeder', 'UploadController@pictures');
+Route::post('admin/billeder', 'UploadController@uploadPicture');
 
 Route::get('profil', 'UsersController@profile');
 Route::get('tilmeld', 'UsersController@subscribe');
