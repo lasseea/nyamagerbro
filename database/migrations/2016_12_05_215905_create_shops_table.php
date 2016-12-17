@@ -17,7 +17,7 @@ class CreateShopsTable extends Migration
             $table->increments('id');
             $table->timestamps();
             $table->string('name');
-            $table->date('address');
+            $table->string('address');
             $table->integer('phone')->unsigned();
             $table->string('description', 1000);
             $table->string('logo_img_link', 500);

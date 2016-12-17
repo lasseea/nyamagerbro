@@ -30,6 +30,9 @@ Route::get('admin/jobs', 'AdminController@jobs');
 Route::get('admin/udleje', 'AdminController@rental');
 Route::get('admin/events', 'AdminController@events');
 
+Route::get('admin/nybutik', 'AdminController@newShop');
+Route::post('admin/tilføjbutik', 'AdminController@addShop');
+
 Route::get('admin/billeder', 'UploadController@pictures');
 Route::post('admin/billeder', 'UploadController@uploadPicture');
 
