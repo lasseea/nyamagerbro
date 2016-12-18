@@ -63,4 +63,90 @@ class AdminController extends Controller
         );
     }
 
+    public function shops()
+    {
+        return view('admin.shops');
+    }
+
+    public function editShop()
+    {
+
+    }
+
+    public function deleteShop()
+    {
+
+    }
+
+    public function newJob()
+    {
+        return view('admin.addjob');
+    }
+    public function addJob()
+    {
+
+    }
+
+    public function jobs()
+    {
+        return view('admin.jobs');
+    }
+
+    public function editJob()
+    {
+
+    }
+
+    public function deleteJob()
+    {
+
+    }
+
+    public function newRental()
+    {
+        return view('admin.addrental');
+    }
+    public function addRental()
+    {
+
+    }
+
+    public function rentals()
+    {
+        return view('admin.rentals');
+    }
+
+    public function editRental()
+    {
+
+    }
+
+    public function deleteRental()
+    {
+
+    }
+
+    public function newEvent()
+    {
+        return view('admin.addevent');
+    }
+    public function addEvent()
+    {
+
+    }
+
+    public function events()
+    {
+        return view('admin.events');
+    }
+
+    public function editEvent()
+    {
+
+    }
+
+    public function deleteEvent()
+    {
+
+    }
 }
