@@ -17,9 +17,10 @@ class CreateShopsBusinessHoursTable extends Migration
             $table->increments('id');
             $table->integer('shop_id')->unsigned();
             $table->timestamps();
-            $table->integer('day_of_week')->unsigned();
-            $table->time('start_hour');
-            $table->integer('end_hour')->usigned();
+            $table->integer('day_of_week')->unsigned()->default(null)->nullable();
+            $table->time('open_time')->default(null)->nullable();
+            $table->time('close_time')->default(null)->nullable();
+            $table->boolean('closed');
 
             $table->foreign('shop_id')->references('id')->on('shops');
         });
