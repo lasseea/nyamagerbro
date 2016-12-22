@@ -239,7 +239,6 @@ class AdminController extends Controller
             ->select('jobs.*', 'shops.name')
             ->paginate(15);
         return view('admin.jobs', ['jobs' =>  $jobs]);
-        //return view('admin.jobs')->with('jobs', Job::all());
     }
 
     public function editJob()
@@ -247,10 +246,10 @@ class AdminController extends Controller
 
     }
 
-    public function deleteJob($id)
+    public function deleteJob($id, Request $request)
     {
         Job::destroy($id);
-        //$request->session()->flash('status', 'Jobopslag er slettet!');
+        $request->session()->flash('status', 'Jobopslag er slettet!');
         return redirect()->action(
             'AdminController@jobs'
         );
@@ -344,7 +343,9 @@ class AdminController extends Controller
 
     public function events()
     {
-        return view('admin.events');
+        $events = DB::table('events')->paginate(15);
+
+        return view('admin.events', ['events' =>  $events]);
     }
 
     public function editEvent()
@@ -352,8 +353,12 @@ class AdminController extends Controller
 
     }
 
-    public function deleteEvent()
+    public function deleteEvent($id, Request $request)
     {
-
+        Event::destroy($id);
+        $request->session()->flash('status', 'Event er slettet!');
+        return redirect()->action(
+            'AdminController@events'
+        );
     }
 }
