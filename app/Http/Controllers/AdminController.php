@@ -13,6 +13,7 @@ use App\Rental;
 use App\Shop_business_hours;
 use App\Subscriber;
 use DB;
+use App;
 
 class AdminController extends Controller
 {
@@ -191,7 +192,7 @@ class AdminController extends Controller
 
     public function shops()
     {
-        return view('admin.shops');
+        return view('admin.shops')->with('shops', Shop::all());
     }
 
     public function editShop()
@@ -233,7 +234,12 @@ class AdminController extends Controller
 
     public function jobs()
     {
-        return view('admin.jobs');
+        $jobs = DB::table('jobs')
+            ->join('shops', 'jobs.shop_id', '=', 'shops.id')
+            ->select('jobs.*', 'shops.name')
+            ->paginate(15);
+        return view('admin.jobs', ['jobs' =>  $jobs]);
+        //return view('admin.jobs')->with('jobs', Job::all());
     }
 
     public function editJob()
@@ -241,9 +247,13 @@ class AdminController extends Controller
 
     }
 
-    public function deleteJob()
+    public function deleteJob($id)
     {
-
+        Job::destroy($id);
+        //$request->session()->flash('status', 'Jobopslag er slettet!');
+        return redirect()->action(
+            'AdminController@jobs'
+        );
     }
 
     public function newRental()

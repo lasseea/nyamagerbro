@@ -32,29 +32,29 @@ Route::get('admin', 'AdminController@admin');
 Route::get('admin/nybutik', 'AdminController@newShop');
 Route::post('admin/tilføjbutik', 'AdminController@addShop');
 Route::get('admin/butikker', 'AdminController@shops');
-Route::post('admin/retbutik', 'AdminController@editShop');
-Route::delete('admin/retbutik/{shop}', 'AdminController@deleteShop');
+Route::post('admin/retbutik/{shop}', 'AdminController@editShop');
+Route::delete('admin/sletbutik/{shop}', 'AdminController@deleteShop');
 
 //Admin event/news moderation
 Route::get('admin/nyevent', 'AdminController@newEvent');
 Route::post('admin/tilføjevent', 'AdminController@addEvent');
 Route::get('admin/events', 'AdminController@events');
-Route::post('admin/retevent', 'AdminController@editEvent');
-Route::delete('admin/retevent/{event}', 'AdminController@deleteEvent');
+Route::post('admin/retevent/{event}', 'AdminController@editEvent');
+Route::delete('admin/sletevent/{event}', 'AdminController@deleteEvent');
 
 //Admin job offer moderation
 Route::get('admin/nytjobopslag', 'AdminController@newJob');
 Route::post('admin/tilføjjobopslag', 'AdminController@addJob');
 Route::get('admin/jobopslag', 'AdminController@jobs');
-Route::post('admin/retjobopslag', 'AdminController@editJob');
-Route::delete('admin/retjobopslag/{job}', 'AdminController@deleteJob');
+Route::post('admin/retjobopslag/{job}', 'AdminController@editJob');
+Route::delete('admin/sletjobopslag/{job}', 'AdminController@deleteJob');
 
 //Admin room rental moderation
 Route::get('admin/nytlokale', 'AdminController@newRental');
 Route::post('admin/tilføjlokale', 'AdminController@addRental');
 Route::get('admin/lokaler', 'AdminController@rentals');
-Route::post('admin/retlokale', 'AdminController@editRental');
-Route::delete('admin/retlokale/{rental}', 'AdminController@deleteRental');
+Route::post('admin/retlokale/{rental', 'AdminController@editRental');
+Route::delete('admin/sletlokale/{rental}', 'AdminController@deleteRental');
 
 //User profile functionalities
 Route::get('profil', 'UsersController@profile');
@@ -62,5 +62,6 @@ Route::get('tilmeld', 'UsersController@subscribe');
 
 //Authentication routes
 Auth::routes();
+
 
 
