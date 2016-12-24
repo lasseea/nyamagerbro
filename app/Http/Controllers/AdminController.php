@@ -192,7 +192,11 @@ class AdminController extends Controller
 
     public function shops()
     {
-        return view('admin.shops')->with('shops', Shop::all());
+        $shops = DB::table('shops')
+            ->join('shop_types', 'shop_types.shop_id', '=', 'shops.id')
+            ->select('shops.*', 'shop_types.shop_type')
+            ->paginate(10);
+        return view('admin.shops', ['shops' =>  $shops]);
     }
 
     public function editShop()
@@ -200,9 +204,13 @@ class AdminController extends Controller
 
     }
 
-    public function deleteShop()
+    public function deleteShop($id, Request $request)
     {
-
+        Shop::destroy($id);
+        $request->session()->flash('status', 'Butik er slettet!');
+        return redirect()->action(
+            'AdminController@shops'
+        );
     }
 
     public function newJob()
@@ -237,7 +245,7 @@ class AdminController extends Controller
         $jobs = DB::table('jobs')
             ->join('shops', 'jobs.shop_id', '=', 'shops.id')
             ->select('jobs.*', 'shops.name')
-            ->paginate(15);
+            ->paginate(10);
         return view('admin.jobs', ['jobs' =>  $jobs]);
     }
 
@@ -289,7 +297,9 @@ class AdminController extends Controller
 
     public function rentals()
     {
-        return view('admin.rentals');
+        $rentals = DB::table('rentals')->paginate(10);
+
+        return view('admin.rentals', ['rentals' =>  $rentals]);
     }
 
     public function editRental()
@@ -297,9 +307,13 @@ class AdminController extends Controller
 
     }
 
-    public function deleteRental()
+    public function deleteRental($id, Request $request)
     {
-
+        Rental::destroy($id);
+        $request->session()->flash('status', 'Lokale til udleje er slettet!');
+        return redirect()->action(
+            'AdminController@rentals'
+        );
     }
 
     public function newEvent()
@@ -343,7 +357,7 @@ class AdminController extends Controller
 
     public function events()
     {
-        $events = DB::table('events')->paginate(15);
+        $events = DB::table('events')->paginate(10);
 
         return view('admin.events', ['events' =>  $events]);
     }

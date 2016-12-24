@@ -21,7 +21,7 @@ class CreateSubscribersTable extends Migration
             $table->boolean('subscribing_jobs')->default(0);
             $table->boolean('subscribing_rentals')->default(0);
 
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

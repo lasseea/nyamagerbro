@@ -19,7 +19,7 @@ class CreateShopTypesTable extends Migration
             $table->string('shop_type');
             $table->integer('shop_id')->unsigned();
 
-            $table->foreign('shop_id')->references('id')->on('shops');
+            $table->foreign('shop_id')->references('id')->on('shops')->onDelete('cascade');
         });
     }
 

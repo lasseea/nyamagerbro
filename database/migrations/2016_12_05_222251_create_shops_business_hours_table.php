@@ -22,7 +22,7 @@ class CreateShopsBusinessHoursTable extends Migration
             $table->time('close_time')->default(null)->nullable();
             $table->boolean('closed');
 
-            $table->foreign('shop_id')->references('id')->on('shops');
+            $table->foreign('shop_id')->references('id')->on('shops')->onDelete('cascade');
         });
     }
 

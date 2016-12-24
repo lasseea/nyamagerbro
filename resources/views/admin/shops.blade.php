@@ -8,8 +8,38 @@
     <div class="container">
         <h2>Butikker opdater/slet</h2>
         <br>
-        @foreach($shops as $shop)
-            {{ $shop->name }}
-        @endforeach
+        <h3>{{ $shops->total() }} Butikker i alt</h3>
+        <p><b>På denne side ({{ $shops->count() }} butikker)</b></p>
+        @if(Session::has('status'))
+            <div class="alert alert-success"><em> {!! session('status') !!}</em></div>
+        @endif
+        <div class="row">
+            <div class="col-md-6 col-md-offset-3">
+                <ul class="list-group">
+                    @foreach($shops as $shop)
+                        <li class="list-group-item" style="margin-top: 15px">
+                        <span>
+                            <b>Navn:</b> {{ $shop->name }}
+                        </span>
+                            <span>
+                            <b>Type:</b> {{ $shop->shop_type }}
+                        </span>
+                            <span class="pull-right clearfix">
+                            <form action="{{ url('admin/sletbutik/' . $shop->id) }}" method="post">
+                            <button type="submit" class="btn btn-xs btn-danger">Slet</button>
+                                {{ method_field('DELETE') }}
+                                {{ csrf_field() }}
+                            </form>
+                        </span>
+                            <span class="pull-right clearfix" style="margin-right: 10px">
+                            <button class="btn btn-xs btn-primary">Opdater</button>
+                        </span>
+                        </li>
+                    @endforeach
+                </ul>
+            </div>
+
+        </div>
+        {{ $shops->links('') }}
     </div>
 @endsection
