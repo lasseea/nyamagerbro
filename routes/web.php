@@ -32,6 +32,7 @@ Route::get('admin', 'AdminController@admin');
 Route::get('admin/nybutik', 'AdminController@newShop');
 Route::post('admin/tilføjbutik', 'AdminController@addShop');
 Route::get('admin/butikker', 'AdminController@shops');
+Route::get('admin/sebutik/{shop}', 'AdminController@editFormShop');
 Route::post('admin/retbutik/{shop}', 'AdminController@editShop');
 Route::delete('admin/sletbutik/{shop}', 'AdminController@deleteShop');
 
@@ -39,6 +40,7 @@ Route::delete('admin/sletbutik/{shop}', 'AdminController@deleteShop');
 Route::get('admin/nyevent', 'AdminController@newEvent');
 Route::post('admin/tilføjevent', 'AdminController@addEvent');
 Route::get('admin/events', 'AdminController@events');
+Route::get('admin/seevent/{event}', 'AdminController@editFormEvent');
 Route::post('admin/retevent/{event}', 'AdminController@editEvent');
 Route::delete('admin/sletevent/{event}', 'AdminController@deleteEvent');
 
@@ -46,6 +48,7 @@ Route::delete('admin/sletevent/{event}', 'AdminController@deleteEvent');
 Route::get('admin/nytjobopslag', 'AdminController@newJob');
 Route::post('admin/tilføjjobopslag', 'AdminController@addJob');
 Route::get('admin/jobopslag', 'AdminController@jobs');
+Route::get('admin/sejobopslag/{job}', 'AdminController@editFormJob');
 Route::post('admin/retjobopslag/{job}', 'AdminController@editJob');
 Route::delete('admin/sletjobopslag/{job}', 'AdminController@deleteJob');
 
@@ -53,6 +56,7 @@ Route::delete('admin/sletjobopslag/{job}', 'AdminController@deleteJob');
 Route::get('admin/nytlokale', 'AdminController@newRental');
 Route::post('admin/tilføjlokale', 'AdminController@addRental');
 Route::get('admin/lokaler', 'AdminController@rentals');
+Route::get('admin/selokale/{rental}', 'AdminController@editFormRental');
 Route::post('admin/retlokale/{rental', 'AdminController@editRental');
 Route::delete('admin/sletlokale/{rental}', 'AdminController@deleteRental');
 

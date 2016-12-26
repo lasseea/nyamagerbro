@@ -32,7 +32,7 @@
                             </form>
                         </span>
                         <span class="pull-right clearfix" style="margin-right: 10px">
-                            <button class="btn btn-xs btn-primary">Opdater</button>
+                            <a href="{{ url('admin/sejobopslag/' . $job->id) }}"><button class="btn btn-xs btn-primary">Opdater</button></a>
                         </span>
                     </li>
                     @endforeach

@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title')
-    Tilføj Event
+    Tilføj Event/Nyhed
 @endsection
 
 @section('content')
@@ -9,7 +9,7 @@
         <div class="panel panel-defualt">
             <div class="panel-body">
                 <form action="{{ url('admin/tilføjevent') }}" method="post" class="form-horizontal" enctype="multipart/form-data">
-                    <h3>Udfyld information om event</h3>
+                    <h3>Udfyld information om event/nyhed</h3>
                     <br>
                     @if(Session::has('status'))
                         <div class="alert alert-success"><em> {!! session('status') !!}</em></div>
@@ -48,20 +48,20 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="event_img_link" class="col-sm-3 control-label">Event billede - vælg billede til upload:</label>
+                        <label for="event_img_link" class="col-sm-3 control-label">Event/nyhed billede - vælg billede til upload:</label>
                         <div class="col-sm-6">
                             <input type="file" name="event_img_link" id="event_img_link" class="form-control">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="small_img_link" class="col-sm-3 control-label">Småt billede - vælg billede til upload:</label>
+                        <label for="small_img_link" class="col-sm-3 control-label">Småt event/nyhed billede - vælg billede til upload:</label>
                         <div class="col-sm-6">
                             <input type="file" name="small_img_link" id="small_img_link" class="form-control">
                         </div>
                     </div>
                     <div class="form-group">
                         <div class="col-sm-offset-3 col-sm-6">
-                            <button type="submit" class="btn-success">Tilføj event</button>
+                            <button type="submit" class="btn-success">Tilføj event/nyhed</button>
                         </div>
                     </div>
                     {{ csrf_field() }}

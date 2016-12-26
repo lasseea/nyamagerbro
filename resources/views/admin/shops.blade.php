@@ -30,9 +30,9 @@
                                 {{ method_field('DELETE') }}
                                 {{ csrf_field() }}
                             </form>
-                        </span>
+                            </span>
                             <span class="pull-right clearfix" style="margin-right: 10px">
-                            <button class="btn btn-xs btn-primary">Opdater</button>
+                            <a href="{{ url('admin/sebutik/' . $shop->id) }}"><button class="btn btn-xs btn-primary">Opdater</button></a>
                         </span>
                         </li>
                     @endforeach

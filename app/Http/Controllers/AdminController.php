@@ -199,6 +199,15 @@ class AdminController extends Controller
         return view('admin.shops', ['shops' =>  $shops]);
     }
 
+    public function editFormShop($id)
+    {
+        $shops = DB::table('shops')->where('shops.id', $id)
+            ->join('shop_types', 'shop_types.shop_id', '=', 'shops.id')
+            ->get();
+        $businesshours = DB::table('shops_business_hours')->where('shop_id', $id)->get();
+        return view('admin.updateshop', ['shops' => $shops, 'businesshours' => $businesshours]);
+    }
+
     public function editShop()
     {
 
@@ -247,6 +256,14 @@ class AdminController extends Controller
             ->select('jobs.*', 'shops.name')
             ->paginate(10);
         return view('admin.jobs', ['jobs' =>  $jobs]);
+    }
+
+    public function editFormJob($id)
+    {
+        $jobs = DB::table('jobs')->where('jobs.id', $id)
+            ->join('shops', 'jobs.shop_id', '=', 'shops.id')
+            ->get();
+        return view('admin.updatejob', ['jobs' => $jobs]);
     }
 
     public function editJob()
@@ -300,6 +317,12 @@ class AdminController extends Controller
         $rentals = DB::table('rentals')->paginate(10);
 
         return view('admin.rentals', ['rentals' =>  $rentals]);
+    }
+
+    public function editFormRental($id)
+    {
+        $rentals = DB::table('rentals')->where('id', $id)->get();
+        return view('admin.updaterental', ['rentals' => $rentals]);
     }
 
     public function editRental()
@@ -360,6 +383,12 @@ class AdminController extends Controller
         $events = DB::table('events')->paginate(10);
 
         return view('admin.events', ['events' =>  $events]);
+    }
+
+    public function editFormEvent($id)
+    {
+        $events = DB::table('events')->where('id', $id)->get();
+        return view('admin.updateevent', ['events' => $events]);
     }
 
     public function editEvent()
