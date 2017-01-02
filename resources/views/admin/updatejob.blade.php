@@ -9,7 +9,7 @@
         <div class="panel panel-defualt">
             <div class="panel-body">
                 @foreach ($jobs as $job)
-                    <form action="{{ url('admin/tilføjjobopslag') }}" method="post" class="form-horizontal" enctype="multipart/form-data">
+                    <form action="{{ url('admin/retjobopslag/' . $job->id) }}" method="post" class="form-horizontal" enctype="multipart/form-data">
                         <h3>Ret information om jobopslag</h3>
                         <br>
                         @if(Session::has('status'))

@@ -208,7 +208,7 @@ class AdminController extends Controller
         return view('admin.updateshop', ['shops' => $shops, 'businesshours' => $businesshours]);
     }
 
-    public function editShop()
+    public function editShop($id, Request $request)
     {
 
     }
@@ -262,13 +262,32 @@ class AdminController extends Controller
     {
         $jobs = DB::table('jobs')->where('jobs.id', $id)
             ->join('shops', 'jobs.shop_id', '=', 'shops.id')
+            ->select('jobs.*', 'shops.name')
             ->get();
         return view('admin.updatejob', ['jobs' => $jobs]);
     }
 
-    public function editJob()
+    public function editJob($id, Request $request)
     {
+        $this->validate($request, [
+            'title' => 'required|max:255',
+            'brief_description' => 'max:500',
+            'full_description' => 'required|max:3000',
+            'shop_name' => 'required|max:255|exists:shops,name',
+        ]);
+        $shop = DB::table('shops')->where('name', $request->shop_name)->first();
 
+        App\Job::where('id', $id)
+            ->update(
+                ['title' => $request->title,
+                'brief_description' => $request->brief_description,
+                'full_description' => $request->full_description,
+                'shop_id' => $shop->id
+            ]);
+        $request->session()->flash('status', 'Jobopslag er rettet!');
+        return redirect()->action(
+          'AdminController@editFormJob', ['job' => $id]
+        );
     }
 
     public function deleteJob($id, Request $request)
@@ -325,7 +344,7 @@ class AdminController extends Controller
         return view('admin.updaterental', ['rentals' => $rentals]);
     }
 
-    public function editRental()
+    public function editRental($id, Request $request)
     {
 
     }
@@ -391,7 +410,7 @@ class AdminController extends Controller
         return view('admin.updateevent', ['events' => $events]);
     }
 
-    public function editEvent()
+    public function editEvent($id, Request $request)
     {
 
     }

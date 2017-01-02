@@ -32,19 +32,19 @@
                     <div class="form-group">
                         <label for="address" class="col-sm-3 control-label">Adresse</label>
                         <div class="col-sm-6">
-                            <input type="text" name="address" id="address" class="form-control">
+                            <input type="text" name="address" id="address" class="form-control" value="{{ old('address') }}">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="brief_description" class="col-sm-3 control-label">Kort beskrivelse</label>
                         <div class="col-sm-6">
-                            <textarea name="brief_description" id="brief_description" class="form-control" rows="3"></textarea>
+                            <textarea name="brief_description" id="brief_description" class="form-control" rows="3">{{ old('brief_description') }}</textarea>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="full_description" class="col-sm-3 control-label">Fuld beskrivelse</label>
                         <div class="col-sm-6">
-                            <textarea name="full_description" id="full_description" class="form-control" rows="5"></textarea>
+                            <textarea name="full_description" id="full_description" class="form-control" rows="5">{{ old('full_description') }}</textarea>
                         </div>
                     </div>
                     <div class="form-group">

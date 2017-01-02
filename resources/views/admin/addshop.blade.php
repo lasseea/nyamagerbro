@@ -26,54 +26,54 @@
                     <div class="form-group">
                         <label for="name" class="col-sm-3 control-label">Navn</label>
                         <div class="col-sm-6">
-                            <input type="text" name="name" id="name" class="form-control">
+                            <input type="text" name="name" id="name" class="form-control" value="{{ old('name') }}">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="shop_type" class="col-sm-3 control-label">Butikstype</label>
                         <div class="col-sm-6">
                             <div class="radio">
-                                <label><input type="radio" name="shop_type" value="Tøj">Tøj</label>
+                                <label><input type="radio" name="shop_type" value="Tøj" @if(old('shop_type') == 'Tøj') checked @endif>Tøj</label>
                             </div>
                             <div class="radio">
-                                <label><input type="radio" name="shop_type" value="Sko">Sko</label>
+                                <label><input type="radio" name="shop_type" value="Sko" @if(old('shop_type') == 'Sko') checked @endif>Sko</label>
                             </div>
                             <div class="radio">
-                                <label><input type="radio" name="shop_type" value="Spisested/Café">Spisested/Café</label>
+                                <label><input type="radio" name="shop_type" value="Spisested/Café" @if(old('shop_type') == 'Spisested/Café') checked @endif>Spisested/Café</label>
                             </div>
                             <div class="radio">
-                                <label><input type="radio" name="shop_type" value="Bolig/Isenkram">Bolig/Isenkram</label>
+                                <label><input type="radio" name="shop_type" value="Bolig/Isenkram" @if(old('shop_type') == 'Bolig/Isenkram') checked @endif>Bolig/Isenkram</label>
                             </div>
                             <div class="radio">
-                                <label><input type="radio" name="shop_type" value="Dagligvarer">Dagligvarer</label>
+                                <label><input type="radio" name="shop_type" value="Dagligvarer" @if(old('shop_type') == 'Dagligvarer') checked @endif>Dagligvarer</label>
                             </div>
                             <div class="radio">
-                                <label><input type="radio" name="shop_type" value="Sport/Fritid">Sport/Fritid</label>
+                                <label><input type="radio" name="shop_type" value="Sport/Fritid" @if(old('shop_type') == 'Sport/Fritid') checked @endif>Sport/Fritid</label>
                             </div>
                             <div class="radio">
-                                <label><input type="radio" name="shop_type" value="Tilbehør/Personlig pleje">Tilbehør/Personlig pleje</label>
+                                <label><input type="radio" name="shop_type" value="Tilbehør/Personlig pleje" @if(old('shop_type') == 'Tilbehør/Personlig pleje') checked @endif>Tilbehør/Personlig pleje</label>
                             </div>
                             <div class="radio">
-                                <label><input type="radio" name="shop_type" value="Andre faciliteter">Andre faciliteter</label>
+                                <label><input type="radio" name="shop_type" value="Andre faciliteter" @if(old('shop_type') == 'Andre faciliteter') checked @endif>Andre faciliteter</label>
                             </div>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="address" class="col-sm-3 control-label">Adresse</label>
                         <div class="col-sm-6">
-                            <input type="text" name="address" id="address" class="form-control">
+                            <input type="text" name="address" id="address" class="form-control" value="{{ old('address') }}">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="phone" class="col-sm-3 control-label">Telefon</label>
                         <div class="col-sm-6">
-                            <input type="text" name="phone" id="phone" class="form-control">
+                            <input type="text" name="phone" id="phone" class="form-control" value="{{ old('phone') }}">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="description" class="col-sm-3 control-label">Beskrivelse</label>
                         <div class="col-sm-6">
-                            <textarea name="description" id="description" class="form-control" rows="5"></textarea>
+                            <textarea name="description" id="description" class="form-control" rows="5">{{ old('description') }}</textarea>
                         </div>
                     </div>
                     <div class="form-group">
@@ -85,13 +85,13 @@
                     <div class="form-group">
                         <label for="website" class="col-sm-3 control-label">Hjemmeside</label>
                         <div class="col-sm-6">
-                            <input type="url" name="website" id="website" class="form-control">
+                            <input type="url" name="website" id="website" class="form-control" value="{{ old('website') }}">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="google_maps_url" class="col-sm-3 control-label">Google Maps URL</label>
                         <div class="col-sm-6">
-                            <input type="text" name="google_maps_url" id="google_maps_url" class="form-control">
+                            <input type="text" name="google_maps_url" id="google_maps_url" class="form-control" value="{{ old('google_maps_url') }}">
                         </div>
                     </div>
                     <div class="form-group">
@@ -101,50 +101,50 @@
                     <div class="form-group">
                         <label for="monday_start" class="col-sm-3 control-label">Mandag</label>
                         <div class="col-sm-6">
-                            Fra: <input type="time" name="monday_start" id="monday_start">
-                            Til: <input type="time" name="monday_end" id="monday_end">
+                            Fra: <input type="time" name="monday_start" id="monday_start" value="{{ old('monday_start') }}">
+                            Til: <input type="time" name="monday_end" id="monday_end" value="{{ old('monday_end') }}">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="tuesday_start" class="col-sm-3 control-label">Tirsdag</label>
                         <div class="col-sm-6">
-                            Fra: <input type="time" name="tuesday_start" id="tuesday_start">
-                            Til: <input type="time" name="tuesday_end" id="tuesday_end">
+                            Fra: <input type="time" name="tuesday_start" id="tuesday_start" value="{{ old('tuesday_start') }}">
+                            Til: <input type="time" name="tuesday_end" id="tuesday_end" value="{{ old('tuesday_end') }}">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="wednesday_start" class="col-sm-3 control-label">Onsdag</label>
                         <div class="col-sm-6">
-                            Fra: <input type="time" name="wednesday_start" id="wednesday_start">
-                            Til: <input type="time" name="wednesday_end" id="wednesday_end">
+                            Fra: <input type="time" name="wednesday_start" id="wednesday_start" value="{{ old('wednesday_start') }}">
+                            Til: <input type="time" name="wednesday_end" id="wednesday_end" value="{{ old('wednesday_end') }}">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="thursday_start" class="col-sm-3 control-label">Torsdag</label>
                         <div class="col-sm-6">
-                            Fra: <input type="time" name="thursday_start" id="thursday_start">
-                            Til: <input type="time" name="thursday_end" id="thursday_end">
+                            Fra: <input type="time" name="thursday_start" id="thursday_start" value="{{ old('thursday_start') }}">
+                            Til: <input type="time" name="thursday_end" id="thursday_end" value="{{ old('thursday_end') }}">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="friday_start" class="col-sm-3 control-label">Fredag</label>
                         <div class="col-sm-6">
-                            Fra: <input type="time" name="friday_start" id="friday_start">
-                            Til: <input type="time" name="friday_end" id="friday_end">
+                            Fra: <input type="time" name="friday_start" id="friday_start" value="{{ old('friday_start') }}">
+                            Til: <input type="time" name="friday_end" id="friday_end" value="{{ old('friday_end') }}">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="saturday_start" class="col-sm-3 control-label">Lørdag</label>
                         <div class="col-sm-6">
-                            Fra: <input type="time" name="saturday_start" id="saturday_start">
-                            Til: <input type="time" name="saturday_end" id="saturday_end">
+                            Fra: <input type="time" name="saturday_start" id="saturday_start" value="{{ old('saturday_start') }}">
+                            Til: <input type="time" name="saturday_end" id="saturday_end" value="{{ old('sunday_end') }}">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="sunday_start" class="col-sm-3 control-label">Søndag</label>
                         <div class="col-sm-6">
-                            Fra: <input type="time" name="sunday_start" id="sunday_start">
-                            Til: <input type="time" name="sunday_end" id="sunday_end">
+                            Fra: <input type="time" name="sunday_start" id="sunday_start" value="{{ old('sunday_start') }}">
+                            Til: <input type="time" name="sunday_end" id="sunday_end" value="{{ old('sunday_end') }}">
                         </div>
                     </div>
                     <div class="form-group">
