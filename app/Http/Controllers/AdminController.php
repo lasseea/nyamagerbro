@@ -211,7 +211,10 @@ class AdminController extends Controller
 
     public function editShop($id, Request $request)
     {
-
+        $request->session()->flash('status', 'Butik er rettet!');
+        return redirect()->action(
+            'AdminController@editFormShop', ['shop' => $id]
+        );
     }
 
     public function deleteShop($id, Request $request)
@@ -357,7 +360,7 @@ class AdminController extends Controller
         $rental = DB::table('rentals')->where('id', $id)->first();
         $old_image_path = $rental->room_img_link;
         if($request->hasFile('room_img_link')){
-            If (file_exists($_SERVER['DOCUMENT_ROOT'] . $old_image_path && $old_image_path != '')) {
+            If (file_exists($_SERVER['DOCUMENT_ROOT'] . $old_image_path)) {
                 unlink($_SERVER['DOCUMENT_ROOT'] . $old_image_path);
             }
             $room_image = $request->file('room_img_link');
@@ -372,26 +375,18 @@ class AdminController extends Controller
                     ]);
         } else {
             if ($request->remove_image == true) {
-                If (file_exists($_SERVER['DOCUMENT_ROOT'] . $old_image_path  && $old_image_path != '')) {
+                If (file_exists($_SERVER['DOCUMENT_ROOT'] . $old_image_path)) {
                     unlink($_SERVER['DOCUMENT_ROOT'] . $old_image_path);
                 }
-                App\Rental::where('id', $id)
-                    ->update(
-                        ['title' => $request->title,
-                            'address' => $request->address,
-                            'brief_description' => $request->brief_description,
-                            'full_description' => $request->full_description,
-                            'room_img_link' => '',
-                        ]);
-            } else {
-                App\Rental::where('id', $id)
-                    ->update(
-                        ['title' => $request->title,
-                            'address' => $request->address,
-                            'brief_description' => $request->brief_description,
-                            'full_description' => $request->full_description,
-                        ]);
             }
+            App\Rental::where('id', $id)
+                ->update(
+                    ['title' => $request->title,
+                        'address' => $request->address,
+                        'brief_description' => $request->brief_description,
+                        'full_description' => $request->full_description,
+                    ]);
+
         }
         $request->session()->flash('status', 'Lokale til udleje er rettet!');
         return redirect()->action(
@@ -462,6 +457,98 @@ class AdminController extends Controller
 
     public function editEvent($id, Request $request)
     {
+        $this->validate($request, [
+            'title' => 'required|max:255',
+            'date' => 'required|date',
+            'brief_description' => 'max:500',
+            'full_description' => 'required|max:3000',
+            'event_img_link' => 'image',
+            'small_img_link' => 'image',
+        ]);
+        $event = DB::table('events')->where('id', $id)->first();
+        $old_image_path_event = $event->event_img_link;
+        $old_image_path_small = $event->small_img_link;
+        if($request->hasFile('event_img_link') && $request->hasFile('small_img_link')){
+            If (file_exists($_SERVER['DOCUMENT_ROOT'] . $old_image_path_event)) {
+                unlink($_SERVER['DOCUMENT_ROOT'] . $old_image_path_event);
+            }
+            If (file_exists($_SERVER['DOCUMENT_ROOT'] . $old_image_path_small)) {
+                unlink($_SERVER['DOCUMENT_ROOT'] . $old_image_path_small);
+            }
+            $event_image = $request->file('event_img_link');
+            $small_image = $request->file('small_img_link');
+            $event_image->move('event_images', $request->title.'_'.$event_image->getClientOriginalName());
+            $small_image->move('event_small_images', $request->title.'_'.$small_image->getClientOriginalName());
+            App\Event::where('id', $id)
+                ->update(
+                    ['title' => $request->title,
+                        'date' => $request->date,
+                        'brief_description' => $request->brief_description,
+                        'full_description' => $request->full_description,
+                        'event_img_link' => '/event_images/'.$request->title.'_'.$event_image->getClientOriginalName(),
+                        'small_img_link' => '/event_small_images/'.$request->title.'_'.$small_image->getClientOriginalName(),
+                    ]);
+        } else if ($request->hasFile('event_img_link')) {
+            If (file_exists($_SERVER['DOCUMENT_ROOT'] . $old_image_path_event)) {
+                unlink($_SERVER['DOCUMENT_ROOT'] . $old_image_path_event);
+            }
+            if ($request->remove_image2 == true) {
+                If (file_exists($_SERVER['DOCUMENT_ROOT'] . $old_image_path_small)) {
+                    unlink($_SERVER['DOCUMENT_ROOT'] . $old_image_path_small);
+                }
+            }
+            $event_image = $request->file('event_img_link');
+            $event_image->move('event_images', $request->title.'_'.$event_image->getClientOriginalName());
+            App\Event::where('id', $id)
+                ->update(
+                    ['title' => $request->title,
+                        'date' => $request->date,
+                        'brief_description' => $request->brief_description,
+                        'full_description' => $request->full_description,
+                        'event_img_link' => '/event_images/'.$request->title.'_'.$event_image->getClientOriginalName(),
+                    ]);
+        } else if ($request->hasFile('small_img_link')) {
+            If (file_exists($_SERVER['DOCUMENT_ROOT'] . $old_image_path_small)) {
+                unlink($_SERVER['DOCUMENT_ROOT'] . $old_image_path_small);
+            }
+            if ($request->remove_image1 == true) {
+                If (file_exists($_SERVER['DOCUMENT_ROOT'] . $old_image_path_event)) {
+                    unlink($_SERVER['DOCUMENT_ROOT'] . $old_image_path_event);
+                }
+            }
+            $small_image = $request->file('small_img_link');
+            $small_image->move('event_small_images', $request->title.'_'.$small_image->getClientOriginalName());
+            App\Event::where('id', $id)
+                ->update(
+                    ['title' => $request->title,
+                        'date' => $request->date,
+                        'brief_description' => $request->brief_description,
+                        'full_description' => $request->full_description,
+                        'small_img_link' => '/event_small_images/'.$request->title.'_'.$small_image->getClientOriginalName(),
+                    ]);
+        } else {
+                if ($request->remove_image1 == true) {
+                    If (file_exists($_SERVER['DOCUMENT_ROOT'] . $old_image_path_event)) {
+                        unlink($_SERVER['DOCUMENT_ROOT'] . $old_image_path_event);
+                    }
+                }
+                if ($request->remove_image2 == true) {
+                    If (file_exists($_SERVER['DOCUMENT_ROOT'] . $old_image_path_small)) {
+                        unlink($_SERVER['DOCUMENT_ROOT'] . $old_image_path_small);
+                    }
+                }
+                App\Event::where('id', $id)
+                    ->update(
+                        ['title' => $request->title,
+                            'date' => $request->date,
+                            'brief_description' => $request->brief_description,
+                            'full_description' => $request->full_description,
+                        ]);
+        }
+        $request->session()->flash('status', 'Event/Nyhed er rettet!');
+        return redirect()->action(
+            'AdminController@editFormEvent', ['event' => $id]
+        );
 
     }
 

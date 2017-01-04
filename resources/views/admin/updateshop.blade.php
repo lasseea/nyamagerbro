@@ -9,7 +9,7 @@
         <div class="panel panel-defualt">
             <div class="panel-body">
                 @foreach($shops as $shop)
-                <form action="{{ url('admin/retbutik/'. $shop->id) }}" method="post" class="form-horizontal" enctype="multipart/form-data">
+                <form action="{{ url('admin/retbutik/' . $shop->id) }}" method="post" class="form-horizontal" enctype="multipart/form-data">
                     <h3>Ret information om butik</h3>
                     <br>
                     @if(Session::has('status'))
