@@ -57,7 +57,7 @@ Route::get('admin/nytlokale', 'AdminController@newRental');
 Route::post('admin/tilføjlokale', 'AdminController@addRental');
 Route::get('admin/lokaler', 'AdminController@rentals');
 Route::get('admin/selokale/{rental}', 'AdminController@editFormRental');
-Route::post('admin/retlokale/{rental', 'AdminController@editRental');
+Route::post('admin/retlokale/{rental}', 'AdminController@editRental');
 Route::delete('admin/sletlokale/{rental}', 'AdminController@deleteRental');
 
 //User profile functionalities

@@ -14,6 +14,7 @@ use App\Shop_business_hours;
 use App\Subscriber;
 use DB;
 use App;
+use Storage;
 
 class AdminController extends Controller
 {
@@ -325,7 +326,7 @@ class AdminController extends Controller
             'room_img_link' => '/rental_images/'.$request->title.'_'.$room_image->getClientOriginalName(),
         ]);
 
-        $request->session()->flash('status', 'Lokale er tilføjet!');
+        $request->session()->flash('status', 'Lokale til udleje er tilføjet!');
         return redirect()->action(
             'AdminController@newRental'
         );
@@ -346,7 +347,56 @@ class AdminController extends Controller
 
     public function editRental($id, Request $request)
     {
-
+        $this->validate($request, [
+            'title' => 'required|max:255',
+            'address' => 'required|max:255',
+            'brief_description' => 'max:500',
+            'full_description' => 'required|max:3000',
+            'room_img_link' => 'image',
+        ]);
+        $rental = DB::table('rentals')->where('id', $id)->first();
+        $old_image_path = $rental->room_img_link;
+        if($request->hasFile('room_img_link')){
+            If (file_exists($_SERVER['DOCUMENT_ROOT'] . $old_image_path && $old_image_path != '')) {
+                unlink($_SERVER['DOCUMENT_ROOT'] . $old_image_path);
+            }
+            $room_image = $request->file('room_img_link');
+            $room_image->move('rental_images', $request->title.'_'.$room_image->getClientOriginalName());
+            App\Rental::where('id', $id)
+                ->update(
+                    ['title' => $request->title,
+                        'address' => $request->address,
+                        'brief_description' => $request->brief_description,
+                        'full_description' => $request->full_description,
+                        'room_img_link' => '/rental_images/'.$request->title.'_'.$room_image->getClientOriginalName(),
+                    ]);
+        } else {
+            if ($request->remove_image == true) {
+                If (file_exists($_SERVER['DOCUMENT_ROOT'] . $old_image_path  && $old_image_path != '')) {
+                    unlink($_SERVER['DOCUMENT_ROOT'] . $old_image_path);
+                }
+                App\Rental::where('id', $id)
+                    ->update(
+                        ['title' => $request->title,
+                            'address' => $request->address,
+                            'brief_description' => $request->brief_description,
+                            'full_description' => $request->full_description,
+                            'room_img_link' => '',
+                        ]);
+            } else {
+                App\Rental::where('id', $id)
+                    ->update(
+                        ['title' => $request->title,
+                            'address' => $request->address,
+                            'brief_description' => $request->brief_description,
+                            'full_description' => $request->full_description,
+                        ]);
+            }
+        }
+        $request->session()->flash('status', 'Lokale til udleje er rettet!');
+        return redirect()->action(
+            'AdminController@editFormRental', ['rental' => $id]
+        );
     }
 
     public function deleteRental($id, Request $request)
