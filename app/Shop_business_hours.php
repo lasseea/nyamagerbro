@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
 
 class Shop_business_hours extends Model
 {
@@ -15,4 +16,17 @@ class Shop_business_hours extends Model
         'close_time',
         'closed',
     ];
+
+    public function getOpenTimeAttribute($value){
+        if ($value != null) {
+            return (new Carbon($value))->format('H:i');
+        }
+    }
+
+    public function getCloseTimeAttribute($value){
+        if ($value != null) {
+            return (new Carbon($value))->format('H:i');
+        }
+    }
+
 }

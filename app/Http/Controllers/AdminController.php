@@ -193,8 +193,7 @@ class AdminController extends Controller
 
     public function shops()
     {
-        $shops = DB::table('shops')
-            ->join('shop_types', 'shop_types.shop_id', '=', 'shops.id')
+        $shops = App\Shop::join('shop_types', 'shop_types.shop_id', '=', 'shops.id')
             ->select('shops.*', 'shop_types.shop_type')
             ->paginate(10);
         return view('admin.shops', ['shops' =>  $shops]);
@@ -202,15 +201,276 @@ class AdminController extends Controller
 
     public function editFormShop($id)
     {
-        $shops = DB::table('shops')->where('shops.id', $id)
+        $shops = App\Shop::where('shops.id', $id)
             ->join('shop_types', 'shop_types.shop_id', '=', 'shops.id')
             ->get();
-        $businesshours = DB::table('shops_business_hours')->where('shop_id', $id)->get();
+        $businesshours = App\Shop_business_hours::where('shop_id', $id)->get();
         return view('admin.updateshop', ['shops' => $shops, 'businesshours' => $businesshours]);
     }
 
     public function editShop($id, Request $request)
     {
+        $this->validate($request, [
+            'name' => 'required|max:255',
+            'address' => 'required|max:255',
+            'phone' => 'integer|digits_between:8,15',
+            'description' => 'max:1000',
+            'logo_img_link' => 'image',
+            'website' => 'url|max:255',
+            'google_maps_url' => 'max:1000',
+            'shop_type' => 'required',
+            'monday_start' => 'date_format:H:i',
+            'tuesday_start' => 'date_format:H:i',
+            'wednesday_start' => 'date_format:H:i',
+            'thursday_start' => 'date_format:H:i',
+            'friday_start' => 'date_format:H:i',
+            'saturday_start' => 'date_format:H:i',
+            'sunday_start' => 'date_format:H:i',
+            'monday_end' => 'date_format:H:i',
+            'tuesday_end' => 'date_format:H:i',
+            'wednesday_end' => 'date_format:H:i',
+            'thursday_end' => 'date_format:H:i',
+            'friday_end' => 'date_format:H:i',
+            'saturday_end' => 'date_format:H:i',
+            'sunday_end' => 'date_format:H:i',
+        ]);
+        $shop = App\Shop::where('id', $id)->first();
+        $old_image_path = $shop->logo_img_link;
+        if($request->hasFile('logo_img_link')) {
+            If (file_exists($_SERVER['DOCUMENT_ROOT'] . $old_image_path)) {
+                unlink($_SERVER['DOCUMENT_ROOT'] . $old_image_path);
+            }
+            $shop_save = App\Shop::find($id);
+            $shop_image = $request->file('logo_img_link');
+            $shop_image->move('shop_logos', $request->name . '_' . $shop_image->getClientOriginalName());
+            $shop_save->logo_img_link = '/shop_logos/'.$request->name . '_' . $shop_image->getClientOriginalName();
+            $shop_save->save();
+        } else {
+            if ($request->remove_logo == true) {
+                If (file_exists($_SERVER['DOCUMENT_ROOT'] . $old_image_path)) {
+                    unlink($_SERVER['DOCUMENT_ROOT'] . $old_image_path);
+                }
+            }
+        }
+        App\Shop::where('id', $id)
+            ->update(
+                ['name' => $request->name,
+                    'address' => $request->address,
+                    'phone' => $request->phone,
+                    'description' => $request->description,
+                    'website' => $request->website,
+                    'google_maps_url' => $request->google_maps_url,
+                ]);
+        App\Shop_type::where('shop_id', $id)
+            ->update(
+                [
+                    'shop_type' => $request->shop_type,
+                    'shop_id' => $shop->id,
+                ]
+            );
+        if($request->has('monday_start') && $request->has('monday_end')) {
+            App\Shop_business_hours::where([
+                ['shop_id', $id],
+                ['day_of_week', '=', 0],
+            ])
+                ->update(
+                    [
+                        'shop_id' => $shop->id,
+                        'day_of_week' => 0,
+                        'open_time' => $request->monday_start,
+                        'close_time' => $request->monday_end,
+                        'closed' => 0,
+                    ]
+            );
+        } else {
+            App\Shop_business_hours::where([
+                ['shop_id', $id],
+                ['day_of_week', '=', 0],
+            ])
+                ->update(
+                    [
+                        'shop_id' => $shop->id,
+                        'day_of_week' => 0,
+                        'open_time' => null,
+                        'close_time' => null,
+                        'closed' => 1,
+                    ]
+                );
+        }
+        if($request->has('tuesday_start') && $request->has('tuesday_end')) {
+            App\Shop_business_hours::where([
+                ['shop_id', $id],
+                ['day_of_week', '=', 1],
+            ])
+                ->update(
+                    [
+                        'shop_id' => $shop->id,
+                        'day_of_week' => 1,
+                        'open_time' => $request->tuesday_start,
+                        'close_time' => $request->tuesday_end,
+                        'closed' => 0,
+                    ]
+                );
+        } else {
+            App\Shop_business_hours::where([
+                ['shop_id', $id],
+                ['day_of_week', '=', 1],
+            ])
+                ->update(
+                    [
+                        'shop_id' => $shop->id,
+                        'day_of_week' => 1,
+                        'open_time' => null,
+                        'close_time' => null,
+                        'closed' => 1,
+                    ]
+                );
+        }
+        if($request->has('wednesday_start') && $request->has('wednesday_end')) {
+            App\Shop_business_hours::where([
+                ['shop_id', $id],
+                ['day_of_week', '=', 2],
+            ])
+                ->update(
+                    [
+                        'shop_id' => $shop->id,
+                        'day_of_week' => 2,
+                        'open_time' => $request->wednesday_start,
+                        'close_time' => $request->wednesday_end,
+                        'closed' => 0,
+                    ]
+                );
+        } else {
+            App\Shop_business_hours::where([
+                ['shop_id', $id],
+                ['day_of_week', '=', 2],
+            ])
+                ->update(
+                    [
+                        'shop_id' => $shop->id,
+                        'day_of_week' => 2,
+                        'open_time' => null,
+                        'close_time' => null,
+                        'closed' => 1,
+                    ]
+                );
+        }
+        if($request->has('thursday_start') && $request->has('thursday_end')) {
+            App\Shop_business_hours::where([
+                ['shop_id', $id],
+                ['day_of_week', '=', 3],
+            ])
+                ->update(
+                    [
+                        'shop_id' => $shop->id,
+                        'day_of_week' => 3,
+                        'open_time' => $request->thursday_start,
+                        'close_time' => $request->thursday_end,
+                        'closed' => 0,
+                    ]
+                );
+        } else {
+            App\Shop_business_hours::where([
+                ['shop_id', $id],
+                ['day_of_week', '=', 3],
+            ])
+                ->update(
+                    [
+                        'shop_id' => $shop->id,
+                        'day_of_week' => 3,
+                        'open_time' => null,
+                        'close_time' => null,
+                        'closed' => 1,
+                    ]
+                );
+        }
+        if($request->has('friday_start') && $request->has('friday_end')) {
+            App\Shop_business_hours::where([
+                ['shop_id', $id],
+                ['day_of_week', '=', 4],
+            ])
+                ->update(
+                    [
+                        'shop_id' => $shop->id,
+                        'day_of_week' => 4,
+                        'open_time' => $request->friday_start,
+                        'close_time' => $request->friday_end,
+                        'closed' => 0,
+                    ]
+                );
+        } else {
+            App\Shop_business_hours::where([
+                ['shop_id', $id],
+                ['day_of_week', '=', 4],
+            ])
+                ->update(
+                    [
+                        'shop_id' => $shop->id,
+                        'day_of_week' => 4,
+                        'open_time' => null,
+                        'close_time' => null,
+                        'closed' => 1,
+                    ]
+                );
+        }
+        if($request->has('saturday_start') && $request->has('saturday_end')) {
+            App\Shop_business_hours::where([
+                ['shop_id', $id],
+                ['day_of_week', '=', 5],
+            ])
+                ->update(
+                    [
+                        'shop_id' => $shop->id,
+                        'day_of_week' => 5,
+                        'open_time' => $request->saturday_start,
+                        'close_time' => $request->saturday_end,
+                        'closed' => 0,
+                    ]
+                );
+        } else {
+            App\Shop_business_hours::where([
+                ['shop_id', $id],
+                ['day_of_week', '=', 5],
+            ])
+                ->update(
+                    [
+                        'shop_id' => $shop->id,
+                        'day_of_week' => 5,
+                        'open_time' => null,
+                        'close_time' => null,
+                        'closed' => 1,
+                    ]
+                );
+        }
+        if($request->has('sunday_start') && $request->has('sunday_end')) {
+            App\Shop_business_hours::where([
+                ['shop_id', $id],
+                ['day_of_week', '=', 6],
+            ])
+                ->update(
+                    [
+                        'shop_id' => $shop->id,
+                        'day_of_week' => 6,
+                        'open_time' => $request->sunday_start,
+                        'close_time' => $request->sunday_end,
+                        'closed' => 0,
+                    ]
+                );
+        } else {
+            App\Shop_business_hours::where([
+                ['shop_id', $id],
+                ['day_of_week', '=', 6],
+            ])
+                ->update(
+                    [
+                        'shop_id' => $shop->id,
+                        'day_of_week' => 6,
+                        'open_time' => null,
+                        'close_time' => null,
+                        'closed' => 1,
+                    ]
+                );
+        }
         $request->session()->flash('status', 'Butik er rettet!');
         return redirect()->action(
             'AdminController@editFormShop', ['shop' => $id]
@@ -238,7 +498,7 @@ class AdminController extends Controller
             'full_description' => 'required|max:3000',
             'shop_name' => 'required|max:255|exists:shops,name',
         ]);
-        $shop = DB::table('shops')->where('name', $request->shop_name)->first();
+        $shop = App\Shop::where('name', $request->shop_name)->first();
 
         Job::create([
             'title' => $request->title,
@@ -255,8 +515,7 @@ class AdminController extends Controller
 
     public function jobs()
     {
-        $jobs = DB::table('jobs')
-            ->join('shops', 'jobs.shop_id', '=', 'shops.id')
+        $jobs = App\Job::join('shops', 'jobs.shop_id', '=', 'shops.id')
             ->select('jobs.*', 'shops.name')
             ->paginate(10);
         return view('admin.jobs', ['jobs' =>  $jobs]);
@@ -264,7 +523,7 @@ class AdminController extends Controller
 
     public function editFormJob($id)
     {
-        $jobs = DB::table('jobs')->where('jobs.id', $id)
+        $jobs = App\Job::where('jobs.id', $id)
             ->join('shops', 'jobs.shop_id', '=', 'shops.id')
             ->select('jobs.*', 'shops.name')
             ->get();
@@ -279,7 +538,7 @@ class AdminController extends Controller
             'full_description' => 'required|max:3000',
             'shop_name' => 'required|max:255|exists:shops,name',
         ]);
-        $shop = DB::table('shops')->where('name', $request->shop_name)->first();
+        $shop = App\Shop::where('name', $request->shop_name)->first();
 
         App\Job::where('id', $id)
             ->update(
@@ -337,14 +596,14 @@ class AdminController extends Controller
 
     public function rentals()
     {
-        $rentals = DB::table('rentals')->paginate(10);
+        $rentals = App\Rental::paginate(10);
 
         return view('admin.rentals', ['rentals' =>  $rentals]);
     }
 
     public function editFormRental($id)
     {
-        $rentals = DB::table('rentals')->where('id', $id)->get();
+        $rentals = App\Rental::where('id', $id)->get();
         return view('admin.updaterental', ['rentals' => $rentals]);
     }
 
@@ -357,7 +616,7 @@ class AdminController extends Controller
             'full_description' => 'required|max:3000',
             'room_img_link' => 'image',
         ]);
-        $rental = DB::table('rentals')->where('id', $id)->first();
+        $rental = App\Rental::where('id', $id)->first();
         $old_image_path = $rental->room_img_link;
         if($request->hasFile('room_img_link')){
             If (file_exists($_SERVER['DOCUMENT_ROOT'] . $old_image_path)) {
@@ -444,14 +703,14 @@ class AdminController extends Controller
 
     public function events()
     {
-        $events = DB::table('events')->paginate(10);
+        $events = App\Event::paginate(10);
 
         return view('admin.events', ['events' =>  $events]);
     }
 
     public function editFormEvent($id)
     {
-        $events = DB::table('events')->where('id', $id)->get();
+        $events = App\Event::where('id', $id)->get();
         return view('admin.updateevent', ['events' => $events]);
     }
 
@@ -465,7 +724,7 @@ class AdminController extends Controller
             'event_img_link' => 'image',
             'small_img_link' => 'image',
         ]);
-        $event = DB::table('events')->where('id', $id)->first();
+        $event = App\Event::where('id', $id)->first();
         $old_image_path_event = $event->event_img_link;
         $old_image_path_small = $event->small_img_link;
         if($request->hasFile('event_img_link') && $request->hasFile('small_img_link')){
