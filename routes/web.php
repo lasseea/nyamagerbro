@@ -19,6 +19,7 @@ Route::get('/butikker', 'PagesController@shops');
 Route::get('/events', 'PagesController@events');
 Route::get('/kultur', 'PagesController@culture');
 Route::get('/jobs', 'PagesController@jobs');
+Route::get('/jobs/{job}', 'PagesController@job');
 Route::get('/udleje', 'PagesController@rentals');
 Route::get('/kontakt', 'PagesController@contact');
 Route::get('/oversigtskort', 'PagesController@overview');

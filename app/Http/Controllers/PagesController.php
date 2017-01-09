@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Jobs;
+use App;
 
 class PagesController extends Controller
 {
@@ -20,7 +22,18 @@ class PagesController extends Controller
     }
 
     public function jobs() {
-        return view('pages.jobs');
+        $jobs = App\Job::join('shops', 'jobs.shop_id', '=', 'shops.id')
+            ->select('jobs.*', 'shops.name')
+            ->paginate(10);
+        return view('pages.jobs', ['jobs' =>  $jobs]);
+    }
+
+    public function job($id) {
+        $jobs = App\Job::where('jobs.id', $id)
+            ->join('shops', 'jobs.shop_id', '=', 'shops.id')
+            ->select('jobs.*', 'shops.name')
+            ->get();
+        return view('pages.seejob', ['jobs' => $jobs]);
     }
 
     public function rentals() {
