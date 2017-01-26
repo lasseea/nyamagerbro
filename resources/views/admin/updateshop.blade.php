@@ -33,76 +33,76 @@
                     <div class="form-group">
                         <label for="shop_type" class="col-sm-3 control-label">Butikstype</label>
                         <div class="col-sm-6">
-                            @if ($shop->shop_type == 'Tøj')
+                            @if ($shop->shop_type_id == '1')
                                 <div class="radio">
-                                    <label><input type="radio" name="shop_type" value="Tøj" checked>Tøj</label>
+                                    <label><input type="radio" name="shop_type" value="1" checked>Tøj</label>
                                 </div>
                             @else
                                 <div class="radio">
-                                    <label><input type="radio" name="shop_type" value="Tøj">Tøj</label>
+                                    <label><input type="radio" name="shop_type" value="1">Tøj</label>
                                 </div>
                             @endif
-                            @if ($shop->shop_type == 'Sko')
+                            @if ($shop->shop_type_id == '2')
                                     <div class="radio">
-                                        <label><input type="radio" name="shop_type" value="Sko" checked>Sko</label>
+                                        <label><input type="radio" name="shop_type" value="2" checked>Sko</label>
                                     </div>
                                 @else
                                     <div class="radio">
-                                        <label><input type="radio" name="shop_type" value="Sko">Sko</label>
+                                        <label><input type="radio" name="shop_type" value="2">Sko</label>
                                     </div>
                                 @endif
-                                @if ($shop->shop_type == 'Spisested/Café')
+                                @if ($shop->shop_type_id == '3')
                                     <div class="radio">
-                                        <label><input type="radio" name="shop_type" value="Spisested/Café" checked>Spisested/Café</label>
+                                        <label><input type="radio" name="shop_type" value="3" checked>Spisested/Café</label>
                                     </div>
                                 @else
                                     <div class="radio">
-                                        <label><input type="radio" name="shop_type" value="Spisested/Café">Spisested/Café</label>
+                                        <label><input type="radio" name="shop_type" value="3">Spisested/Café</label>
                                     </div>
                                 @endif
-                                @if ($shop->shop_type == 'Bolig/Isenkram')
+                                @if ($shop->shop_type_id == '4')
                                     <div class="radio">
-                                        <label><input type="radio" name="shop_type" value="Bolig/Isenkram" checked>Bolig/Isenkram</label>
+                                        <label><input type="radio" name="shop_type" value="4" checked>Bolig/Isenkram</label>
                                     </div>
                                 @else
                                     <div class="radio">
-                                        <label><input type="radio" name="shop_type" value="Bolig/Isenkram">Bolig/Isenkram</label>
+                                        <label><input type="radio" name="shop_type" value="4">Bolig/Isenkram</label>
                                     </div>
                                 @endif
-                                @if ($shop->shop_type == 'Daligvarer')
+                                @if ($shop->shop_type_id == '5')
                                     <div class="radio">
-                                        <label><input type="radio" name="shop_type" value="Dagligvarer" checked>Dagligvarer</label>
+                                        <label><input type="radio" name="shop_type" value="5" checked>Dagligvarer</label>
                                     </div>
                                 @else
                                     <div class="radio">
-                                        <label><input type="radio" name="shop_type" value="Dagligvarer">Dagligvarer</label>
+                                        <label><input type="radio" name="shop_type" value="5">Dagligvarer</label>
                                     </div>
                                 @endif
-                                @if ($shop->shop_type == 'Sport/Fritid')
+                                @if ($shop->shop_type_id == '6')
                                     <div class="radio">
-                                        <label><input type="radio" name="shop_type" value="Sport/Fritid" checked>Sport/Fritid</label>
+                                        <label><input type="radio" name="shop_type" value="6" checked>Sport/Fritid</label>
                                     </div>
                                 @else
                                     <div class="radio">
-                                        <label><input type="radio" name="shop_type" value="Sport/Fritid">Sport/Fritid</label>
+                                        <label><input type="radio" name="shop_type" value="6">Sport/Fritid</label>
                                     </div>
                                 @endif
-                                @if ($shop->shop_type == 'Tilbehør/Personlig pleje')
+                                @if ($shop->shop_type_id == '7')
                                     <div class="radio">
-                                        <label><input type="radio" name="shop_type" value="Tilbehør/Personlig pleje" checked>Tilbehør/Personlig pleje</label>
+                                        <label><input type="radio" name="shop_type" value="7" checked>Tilbehør/Personlig pleje</label>
                                     </div>
                                 @else
                                     <div class="radio">
-                                        <label><input type="radio" name="shop_type" value="Tilbehør/Personlig pleje">Tilbehør/Personlig pleje</label>
+                                        <label><input type="radio" name="shop_type" value="7">Tilbehør/Personlig pleje</label>
                                     </div>
                                 @endif
-                                @if ($shop->shop_type == 'Andre faciliteter')
+                                @if ($shop->shop_type_id == '8')
                                     <div class="radio">
-                                        <label><input type="radio" name="shop_type" value="Andre faciliteter" checked>Andre faciliteter</label>
+                                        <label><input type="radio" name="shop_type" value="8" checked>Andre faciliteter</label>
                                     </div>
                                 @else
                                     <div class="radio">
-                                        <label><input type="radio" name="shop_type" value="Andre faciliteter">Andre faciliteter</label>
+                                        <label><input type="radio" name="shop_type" value="8">Andre faciliteter</label>
                                     </div>
                                 @endif
                         </div>

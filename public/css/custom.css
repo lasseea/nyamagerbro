@@ -156,3 +156,12 @@ body {
     }
 }
 
+.small_event_img {
+    max-width: 40%;
+    max-height: 40%;
+}
+
+.logo_img {
+    max-width: 40%;
+    max-height: 40%;
+}

@@ -9,9 +9,6 @@
         <h1>Jobopslag</h1>
         <br>
         <h3>{{ $jobs->total() }} jobopslag i alt</h3>
-        @if(Session::has('status'))
-            <div class="alert alert-success"><em> {!! session('status') !!}</em></div>
-        @endif
         <div class="row">
             <div class="col-md-6 col-md-offset-3">
                 <ul class="list-group">

@@ -23,6 +23,8 @@ class CreateShopsTable extends Migration
             $table->string('logo_img_link', 500);
             $table->string('website');
             $table->string('google_maps_url', 1000);
+            $table->integer('shop_type_id')->unsigned();
+            $table->foreign('shop_type_id')->references('id')->on('shop_types');
         });
     }
 

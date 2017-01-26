@@ -16,11 +16,18 @@ Route::get('/home', 'HomeController@index');
 
 //Pages for site visitors
 Route::get('/butikker', 'PagesController@shops');
+Route::get('/butikker/{shop}', 'PagesController@shop');
+
 Route::get('/events', 'PagesController@events');
-Route::get('/kultur', 'PagesController@culture');
+Route::get('/events/{event}', 'PagesController@event');
+
 Route::get('/jobs', 'PagesController@jobs');
 Route::get('/jobs/{job}', 'PagesController@job');
+
 Route::get('/udleje', 'PagesController@rentals');
+Route::get('/udleje/{rental}', 'PagesController@rental');
+
+Route::get('/kultur', 'PagesController@culture');
 Route::get('/kontakt', 'PagesController@contact');
 Route::get('/oversigtskort', 'PagesController@overview');
 Route::get('/parkering', 'PagesController@parking');

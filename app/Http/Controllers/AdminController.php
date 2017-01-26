@@ -73,10 +73,7 @@ class AdminController extends Controller
             'logo_img_link' => '/shop_logos/'.$request->name.'_'.$file->getClientOriginalName(),
             'website' => $request->website,
             'google_maps_url' => $request->google_maps_url,
-        ]);
-        Shop_type::create([
-            'shop_type' => $request->shop_type,
-            'shop_id' => $shop->id,
+            'shop_type_id' => $request->shop_type,
         ]);
 
         if($request->has('monday_start') && $request->has('monday_end')) {
@@ -193,7 +190,7 @@ class AdminController extends Controller
 
     public function shops()
     {
-        $shops = App\Shop::join('shop_types', 'shop_types.shop_id', '=', 'shops.id')
+        $shops = App\Shop::join('shop_types', 'shops.shop_type_id', '=', 'shop_types.id')
             ->select('shops.*', 'shop_types.shop_type')
             ->paginate(10);
         return view('admin.shops', ['shops' =>  $shops]);
@@ -202,7 +199,6 @@ class AdminController extends Controller
     public function editFormShop($id)
     {
         $shops = App\Shop::where('shops.id', $id)
-            ->join('shop_types', 'shop_types.shop_id', '=', 'shops.id')
             ->get();
         $businesshours = App\Shop_business_hours::where('shop_id', $id)->get();
         return view('admin.updateshop', ['shops' => $shops, 'businesshours' => $businesshours]);
@@ -260,14 +256,8 @@ class AdminController extends Controller
                     'description' => $request->description,
                     'website' => $request->website,
                     'google_maps_url' => $request->google_maps_url,
+                    'shop_type_id' => $request->shop_type,
                 ]);
-        App\Shop_type::where('shop_id', $id)
-            ->update(
-                [
-                    'shop_type' => $request->shop_type,
-                    'shop_id' => $shop->id,
-                ]
-            );
         if($request->has('monday_start') && $request->has('monday_end')) {
             App\Shop_business_hours::where([
                 ['shop_id', $id],
@@ -479,6 +469,11 @@ class AdminController extends Controller
 
     public function deleteShop($id, Request $request)
     {
+        $shop = App\Shop::where('id', $id)->first();
+        $old_image_path = $shop->logo_img_link;
+        If (file_exists($_SERVER['DOCUMENT_ROOT'] . $old_image_path)) {
+            unlink($_SERVER['DOCUMENT_ROOT'] . $old_image_path);
+        }
         Shop::destroy($id);
         $request->session()->flash('status', 'Butik er slettet!');
         return redirect()->action(
@@ -655,6 +650,11 @@ class AdminController extends Controller
 
     public function deleteRental($id, Request $request)
     {
+        $rental = App\Rental::where('id', $id)->first();
+        $old_image_path = $rental->room_img_link;
+        If (file_exists($_SERVER['DOCUMENT_ROOT'] . $old_image_path)) {
+            unlink($_SERVER['DOCUMENT_ROOT'] . $old_image_path);
+        }
         Rental::destroy($id);
         $request->session()->flash('status', 'Lokale til udleje er slettet!');
         return redirect()->action(
@@ -813,6 +813,15 @@ class AdminController extends Controller
 
     public function deleteEvent($id, Request $request)
     {
+        $event = App\Event::where('id', $id)->first();
+        $event_image_path = $event->event_img_link;
+        $small_image_path = $event->small_img_link;
+        If (file_exists($_SERVER['DOCUMENT_ROOT'] . $event_image_path)) {
+            unlink($_SERVER['DOCUMENT_ROOT'] . $event_image_path);
+        }
+        If (file_exists($_SERVER['DOCUMENT_ROOT'] . $small_image_path)) {
+            unlink($_SERVER['DOCUMENT_ROOT'] . $small_image_path);
+        }
         Event::destroy($id);
         $request->session()->flash('status', 'Event er slettet!');
         return redirect()->action(

@@ -14,5 +14,6 @@ class Shop extends Model
         'logo_img_link',
         'website',
         'google_maps_url',
+        'shop_type_id',
     ];
 }

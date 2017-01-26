@@ -14,12 +14,9 @@ class CreateShopTypesTable extends Migration
     public function up()
     {
         Schema::create('shop_types', function (Blueprint $table) {
-            $table->increments('id');
+            $table->increments('id')->unsigned;
             $table->timestamps();
             $table->string('shop_type');
-            $table->integer('shop_id')->unsigned();
-
-            $table->foreign('shop_id')->references('id')->on('shops')->onDelete('cascade');
         });
     }
 

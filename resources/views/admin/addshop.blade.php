@@ -33,28 +33,28 @@
                         <label for="shop_type" class="col-sm-3 control-label">Butikstype</label>
                         <div class="col-sm-6">
                             <div class="radio">
-                                <label><input type="radio" name="shop_type" value="Tøj" @if(old('shop_type') == 'Tøj') checked @endif>Tøj</label>
+                                <label><input type="radio" name="shop_type" value="1" @if(old('shop_type') == '1') checked @endif>Tøj</label>
                             </div>
                             <div class="radio">
-                                <label><input type="radio" name="shop_type" value="Sko" @if(old('shop_type') == 'Sko') checked @endif>Sko</label>
+                                <label><input type="radio" name="shop_type" value="2" @if(old('shop_type') == '2') checked @endif>Sko</label>
                             </div>
                             <div class="radio">
-                                <label><input type="radio" name="shop_type" value="Spisested/Café" @if(old('shop_type') == 'Spisested/Café') checked @endif>Spisested/Café</label>
+                                <label><input type="radio" name="shop_type" value="3" @if(old('shop_type') == '3') checked @endif>Spisested/Café</label>
                             </div>
                             <div class="radio">
-                                <label><input type="radio" name="shop_type" value="Bolig/Isenkram" @if(old('shop_type') == 'Bolig/Isenkram') checked @endif>Bolig/Isenkram</label>
+                                <label><input type="radio" name="shop_type" value="4" @if(old('shop_type') == '4') checked @endif>Bolig/Isenkram</label>
                             </div>
                             <div class="radio">
-                                <label><input type="radio" name="shop_type" value="Dagligvarer" @if(old('shop_type') == 'Dagligvarer') checked @endif>Dagligvarer</label>
+                                <label><input type="radio" name="shop_type" value="5" @if(old('shop_type') == '5') checked @endif>Dagligvarer</label>
                             </div>
                             <div class="radio">
-                                <label><input type="radio" name="shop_type" value="Sport/Fritid" @if(old('shop_type') == 'Sport/Fritid') checked @endif>Sport/Fritid</label>
+                                <label><input type="radio" name="shop_type" value="6" @if(old('shop_type') == '6') checked @endif>Sport/Fritid</label>
                             </div>
                             <div class="radio">
-                                <label><input type="radio" name="shop_type" value="Tilbehør/Personlig pleje" @if(old('shop_type') == 'Tilbehør/Personlig pleje') checked @endif>Tilbehør/Personlig pleje</label>
+                                <label><input type="radio" name="shop_type" value="7" @if(old('shop_type') == '7') checked @endif>Tilbehør/Personlig pleje</label>
                             </div>
                             <div class="radio">
-                                <label><input type="radio" name="shop_type" value="Andre faciliteter" @if(old('shop_type') == 'Andre faciliteter') checked @endif>Andre faciliteter</label>
+                                <label><input type="radio" name="shop_type" value="8" @if(old('shop_type') == '8') checked @endif>Andre faciliteter</label>
                             </div>
                         </div>
                     </div>

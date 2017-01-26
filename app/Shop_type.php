@@ -10,6 +10,5 @@ class Shop_type extends Model
 
     protected $fillable = [
         'shop_type',
-        'shop_id',
     ];
 }

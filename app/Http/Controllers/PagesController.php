@@ -9,50 +9,90 @@ use App;
 class PagesController extends Controller
 {
 
-    public function shops() {
-        return view('pages.shops');
+    public function shops()
+    {
+        $shops = App\Shop::join('shop_types', 'shops.shop_type_id', '=', 'shop_types.id')
+            ->select('shops.*', 'shop_types.shop_type')
+            ->paginate(10);
+        return view('pages.shops', ['shops' =>  $shops]);
     }
 
-    public function events() {
-        return view('pages.events');
+    public function shop($id)
+    {
+        $shops = App\Shop::where('shops.id', $id)
+            ->join('shop_types', 'shops.shop_type_id', '=', 'shop_types.id')
+            ->select('shops.*', 'shop_types.shop_type')
+            ->get();
+        $businesshours = App\Shop_business_hours::where('shop_id', $id)->get();
+        return view('pages.seeshop', ['shops' => $shops, 'businesshours' => $businesshours]);
     }
 
-    public function culture() {
+    public function events()
+    {
+        $events = App\Event::orderBy('date', 'desc')
+            ->paginate(10);
+
+        return view('pages.events', ['events' =>  $events]);
+    }
+
+    public function event($id)
+    {
+        $events = App\Event::where('id', $id)->get();
+        return view('pages.seeevent', ['events' => $events]);
+    }
+
+    public function culture()
+    {
         return view('pages.culture');
     }
 
-    public function jobs() {
+    public function jobs()
+    {
         $jobs = App\Job::join('shops', 'jobs.shop_id', '=', 'shops.id')
             ->select('jobs.*', 'shops.name')
             ->paginate(10);
         return view('pages.jobs', ['jobs' =>  $jobs]);
     }
 
-    public function job($id) {
+    public function job($id)
+    {
         $jobs = App\Job::where('jobs.id', $id)
             ->join('shops', 'jobs.shop_id', '=', 'shops.id')
-            ->select('jobs.*', 'shops.name')
+            ->select('jobs.*', 'shops.name', 'shops.id as shop_id', 'shops.logo_img_link')
             ->get();
         return view('pages.seejob', ['jobs' => $jobs]);
     }
 
-    public function rentals() {
-        return view('pages.rentals');
+    public function rentals()
+    {
+        $rentals = App\Rental::paginate(10);
+
+        return view('pages.rentals', ['rentals' =>  $rentals]);
     }
 
-    public function contact() {
+    public function rental($id)
+    {
+        $rentals = App\Rental::where('id', $id)->get();
+        return view('pages.seerental', ['rentals' => $rentals]);
+    }
+
+    public function contact()
+    {
         return view('pages.contact');
     }
 
-    public function overview() {
+    public function overview()
+    {
         return view('pages.overview');
     }
 
-    public function parking() {
+    public function parking()
+    {
         return view('pages.parking');
     }
 
-    public function terms() {
+    public function terms()
+    {
         return view('pages.terms');
     }
 }
