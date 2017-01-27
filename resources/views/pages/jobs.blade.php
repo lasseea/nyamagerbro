@@ -15,12 +15,8 @@
                     @foreach($jobs as $job)
                         <a href="{{ url('jobs/' . $job->id) }}">
                             <li class="list-group-item" style="margin-top: 15px">
-                            <span>
-                                <b>Stilling:</b> {{ $job->title }}
-                            </span>
-                                <span>
-                                <b>Butik:</b> {{ $job->name }}
-                            </span>
+                                <p><b>Stilling:</b> {{ $job->title }}</p>
+                                <p><b>Butik:</b> {{ $job->name }}</p>
                             </li>
                         </a>
                     @endforeach

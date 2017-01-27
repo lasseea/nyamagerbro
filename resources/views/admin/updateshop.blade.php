@@ -126,6 +126,12 @@
                         </div>
                     </div>
                     <div class="form-group">
+                        <label class="col-sm-3 control-label">Nuværende logo:</label>
+                        <div class="col-sm-6">
+                            <img src="{{ $shop->logo_img_link }}" class="small_img" title="Intet logo">
+                        </div>
+                    </div>
+                    <div class="form-group">
                         <label for="logo_img_link" class="col-sm-3 control-label">Logo - upload nyt billede:</label>
                         <div class="col-sm-6">
                             <input type="file" name="logo_img_link" id="logo_img_link" class="form-control">

@@ -15,12 +15,9 @@
                     @foreach($rentals as $rental)
                         <a href="{{ url('udleje/' . $rental->id) }}">
                             <li class="list-group-item" style="margin-top: 15px">
-                            <span>
-                                <b>Stilling:</b> {{ $rental->title }}
-                            </span>
-                                <span>
-                                <b>Butik:</b> {{ $rental->name }}
-                            </span>
+                            <p><b>{{ $rental->title }}</b> </p>
+                            <p><b>Adresse:</b> {{ $rental->address }}</p>
+                                <p>{{ $rental->brief_description }}</p>
                             </li>
                         </a>
                     @endforeach

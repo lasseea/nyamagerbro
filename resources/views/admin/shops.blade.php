@@ -18,12 +18,8 @@
                 <ul class="list-group">
                     @foreach($shops as $shop)
                         <li class="list-group-item" style="margin-top: 15px">
-                        <span>
                             <b>Navn:</b> {{ $shop->name }}
-                        </span>
-                            <span>
-                            <b>Type:</b> {{ $shop->shop_type }}
-                        </span>
+                            <b>Adresse:</b> {{ $shop->address }}
                             <span class="pull-right clearfix">
                             <form action="{{ url('admin/sletbutik/' . $shop->id) }}" method="post">
                             <button type="submit" class="btn btn-xs btn-danger">Slet</button>
@@ -33,7 +29,7 @@
                             </span>
                             <span class="pull-right clearfix" style="margin-right: 10px">
                             <a href="{{ url('admin/sebutik/' . $shop->id) }}"><button class="btn btn-xs btn-primary">Opdater</button></a>
-                        </span>
+                            </span>
                         </li>
                     @endforeach
                 </ul>

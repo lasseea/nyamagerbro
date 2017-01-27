@@ -49,6 +49,12 @@
                             </div>
                         </div>
                         <div class="form-group">
+                            <label class="col-sm-3 control-label">Nuværende billede:</label>
+                            <div class="col-sm-6">
+                                <img src="{{ $rental->room_img_link }}" class="small_img" title="Intet billede">
+                            </div>
+                        </div>
+                        <div class="form-group">
                             <label for="room_img_link" class="col-sm-3 control-label">Lokale - upload nyt billede:</label>
                             <div class="col-sm-6">
                                 <input type="file" name="room_img_link" id="room_img_link" class="form-control">

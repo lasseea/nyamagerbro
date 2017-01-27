@@ -55,6 +55,12 @@
                             </div>
                         </div>
                         <div class="form-group">
+                            <label class="col-sm-3 control-label">Nuværende billede:</label>
+                            <div class="col-sm-6">
+                                <img src="{{ $event->event_img_link }}" class="small_img" title="Intet billede">
+                            </div>
+                        </div>
+                        <div class="form-group">
                             <label for="remove_image1" class="col-sm-3 control-label">Fjern event/nyhed billede:</label>
                             <div class="col-sm-6">
                                 <input type="checkbox" name="remove_image1" id="remove_image1" class="form-inline">
@@ -64,6 +70,12 @@
                             <label for="small_img_link" class="col-sm-3 control-label">Småt event/nyhed billede - upload nyt billede:</label>
                             <div class="col-sm-6">
                                 <input type="file" name="small_img_link" id="small_img_link" class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Nuværende billede:</label>
+                            <div class="col-sm-6">
+                                <img src="{{ $event->small_img_link }}" class="small_img" title="Intet billede">
                             </div>
                         </div>
                         <div class="form-group">

@@ -15,12 +15,9 @@
                     @foreach($shops as $shop)
                         <a href="{{ url('butikker/' . $shop->id) }}">
                             <li class="list-group-item" style="margin-top: 15px">
-                            <span>
-                                <b>Stilling:</b> {{ $shop->name }}
-                            </span>
-                                <span>
-                                <b>Butik:</b> {{ $shop->name }}
-                            </span>
+                                <p><b>Stilling:</b> {{ $shop->name }}</p>
+                                <p><b>Butik:</b> {{ $shop->name }}</p>
+                                <img src="{{ $shop->logo_img_link }}" class="small_img">
                             </li>
                         </a>
                     @endforeach

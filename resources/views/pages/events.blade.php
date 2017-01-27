@@ -15,7 +15,7 @@
                     @foreach($events as $event)
                         <a href="{{ url('events/' . $event->id) }}">
                             <li class="list-group-item" style="margin-top: 15px">
-                                    <img src="{{ $event->small_img_link }}" class="small_event_img">
+                                    <img src="{{ $event->small_img_link }}" class="small_img">
                                     <p><b>{{ $event->title }}</b></p>
                                     <p><b>{{ $event->date }}</b></p>
                                     <p>{!! nl2br(e($event->brief_description)) !!}</p>
