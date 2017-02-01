@@ -15,8 +15,8 @@ Route::get('/', 'HomeController@index');
 Route::get('/home', 'HomeController@index');
 
 //Pages for site visitors
-Route::get('/butikker', 'PagesController@shops');
-Route::get('/butikker/{shop}', 'PagesController@shop');
+Route::get('/butikker/{shop_type?}', 'PagesController@shops');
+Route::get('/butikker/butik/{shop}', 'PagesController@shop');
 
 Route::get('/events', 'PagesController@events');
 Route::get('/events/{event}', 'PagesController@event');

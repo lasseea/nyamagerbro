@@ -5,16 +5,27 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Jobs;
 use App;
+use DB;
 
 class PagesController extends Controller
 {
 
-    public function shops()
+    public function shops($shop_type = null)
     {
-        $shops = App\Shop::join('shop_types', 'shops.shop_type_id', '=', 'shop_types.id')
-            ->select('shops.*', 'shop_types.shop_type')
-            ->paginate(10);
-        return view('pages.shops', ['shops' =>  $shops]);
+        $selectedtype = App\Shop_type::where('shop_types.id', $shop_type)->first();
+        $shoptypes = App\Shop_type::all();
+        if (!$shop_type) {
+            $shops = App\Shop::join('shop_types', 'shops.shop_type_id', '=', 'shop_types.id')
+                ->select('shops.*', 'shop_types.shop_type')
+                ->paginate(10);
+            return view('pages.shops', compact('shops', 'shoptypes', 'selectedtype'));
+        } else {
+            $shops = App\Shop::join('shop_types', 'shops.shop_type_id', '=', 'shop_types.id')
+                ->where('shops.shop_type_id', '=', $shop_type)
+                ->select('shops.*', 'shop_types.shop_type')
+                ->paginate(10);
+            return view('pages.shops', compact('shops', 'shoptypes', 'selectedtype'));
+        }
     }
 
     public function shop($id)
@@ -58,7 +69,7 @@ class PagesController extends Controller
     {
         $jobs = App\Job::where('jobs.id', $id)
             ->join('shops', 'jobs.shop_id', '=', 'shops.id')
-            ->select('jobs.*', 'shops.name', 'shops.id as shop_id', 'shops.logo_img_link')
+            ->select('jobs.*', 'shops.name', 'shops.id as shop_id', 'shops.logo_img_link', 'shops.address')
             ->get();
         return view('pages.seejob', ['jobs' => $jobs]);
     }
