@@ -6,6 +6,6 @@
 
 @section('content')
     <div class="container">
-        <h1>Kultur</h1>
+        <h1>Historie & Kultur</h1>
     </div>
 @endsection
