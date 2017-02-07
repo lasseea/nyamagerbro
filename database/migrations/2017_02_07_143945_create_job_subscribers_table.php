@@ -14,9 +14,9 @@ class CreateJobSubscribersTable extends Migration
     public function up()
     {
         Schema::create('job_subscribers', function (Blueprint $table) {
-            $table->increments('id');
-            $table->timestamps();
             $table->integer('user_id')->unsigned();
+            $table->timestamps();
+
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });

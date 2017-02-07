@@ -14,9 +14,9 @@ class CreateRentalSubscribersTable extends Migration
     public function up()
     {
         Schema::create('rental_subscribers', function (Blueprint $table) {
-            $table->increments('id');
-            $table->timestamps();
             $table->integer('user_id')->unsigned();
+            $table->timestamps();
+
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
