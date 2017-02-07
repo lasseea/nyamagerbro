@@ -70,7 +70,8 @@ Route::delete('admin/sletlokale/{rental}', 'AdminController@deleteRental');
 
 //User profile functionalities
 Route::get('profil', 'UsersController@profile');
-Route::get('tilmeld', 'UsersController@subscribe');
+Route::get('tilmeld/{subscription}/{user}', 'UsersController@subscribe');
+Route::get('afmeld/{subscription}/{user}', 'UsersController@unsubscribe');
 
 //Authentication routes
 Auth::routes();
