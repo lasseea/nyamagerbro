@@ -15,6 +15,13 @@ use App\Subscriber;
 use DB;
 use App;
 use Storage;
+use Mail;
+use App\Mail\NewEvent;
+use App\Mail\NewJob;
+use App\Mail\NewRental;
+use App\Event_subscribers;
+use App\Job_subscribers;
+use App\Rental_subscribers;
 
 class AdminController extends Controller
 {
@@ -501,6 +508,13 @@ class AdminController extends Controller
             'full_description' => $request->full_description,
             'shop_id' => $shop->id,
         ]);
+        //send mail too all job subscribers
+        $job_subscribers = App\Job_subscribers::join('users', 'users.id', '=', 'job_subscribers.user_id')
+            ->select('users.email')
+            ->get();
+        foreach ($job_subscribers as $job_subscriber) {
+            Mail::to($job_subscriber->email)->send(new NewJob());
+        }
 
         $request->session()->flash('status', 'Jobopslag er tilføjet!');
         return redirect()->action(
@@ -582,7 +596,13 @@ class AdminController extends Controller
             'full_description' => $request->full_description,
             'room_img_link' => '/rental_images/'.$request->title.'_'.$room_image->getClientOriginalName(),
         ]);
-
+        //send mail too all rental subscribers
+        $rental_subscribers = App\Rental_subscribers::join('users', 'users.id', '=', 'rental_subscribers.user_id')
+            ->select('users.email')
+            ->get();
+        foreach ($rental_subscribers as $rental_subscriber) {
+            Mail::to($rental_subscriber->email)->send(new NewRental());
+        }
         $request->session()->flash('status', 'Lokale til udleje er tilføjet!');
         return redirect()->action(
             'AdminController@newRental'
@@ -694,6 +714,14 @@ class AdminController extends Controller
             'event_img_link' => '/event_images/'.$request->title.'_'.$event_image->getClientOriginalName(),
             'small_img_link' => '/event_small_images/'.$request->title.'_'.$small_image->getClientOriginalName(),
         ]);
+
+        //send mail too all event subscribers
+        $event_subscribers = App\Event_subscribers::join('users', 'users.id', '=', 'event_subscribers.user_id')
+            ->select('users.email')
+            ->get();
+        foreach ($event_subscribers as $event_subscriber) {
+            Mail::to($event_subscriber->email)->send(new NewEvent());
+        }
 
         $request->session()->flash('status', 'Event er tilføjet!');
         return redirect()->action(

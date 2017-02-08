@@ -8,6 +8,8 @@ use App\Event_subscribers;
 use App\Job_subscribers;
 use App\Rental_subscribers;
 use DB;
+use Auth;
+use App\User;
 
 class UsersController extends Controller
 {
@@ -18,7 +20,13 @@ class UsersController extends Controller
 
     public function profile()
     {
-        return view('auth.profile');
+        $user_id = Auth::user()->id;
+        $subscriptions = App\User::leftJoin('job_subscribers', 'users.id', '=', 'job_subscribers.user_id')
+            ->leftJoin('event_subscribers', 'users.id', '=', 'event_subscribers.user_id')
+            ->leftJoin('rental_subscribers', 'users.id', '=', 'rental_subscribers.user_id')
+            ->select('users.*', 'job_subscribers.user_id as job', 'event_subscribers.user_id as event', 'rental_subscribers.user_id as rental')
+            ->where('users.id', '=', $user_id)->get();
+        return view('auth.profile', compact('subscriptions'));
     }
 
     public function subscribe($subscription, Request $request)
