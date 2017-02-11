@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Jobs;
+use App\Models\Job;
 use App;
 use DB;
 
@@ -12,15 +12,15 @@ class PagesController extends Controller
 
     public function shops($shop_type = null)
     {
-        $selectedtype = App\Shop_type::where('shop_types.id', $shop_type)->first();
-        $shoptypes = App\Shop_type::all();
+        $selectedtype = App\Models\Shop_type::where('shop_types.id', $shop_type)->first();
+        $shoptypes = App\Models\Shop_type::all();
         if (!$shop_type) {
-            $shops = App\Shop::join('shop_types', 'shops.shop_type_id', '=', 'shop_types.id')
+            $shops = App\Models\Shop::join('shop_types', 'shops.shop_type_id', '=', 'shop_types.id')
                 ->select('shops.*', 'shop_types.shop_type')
                 ->paginate(10);
             return view('pages.shops', compact('shops', 'shoptypes', 'selectedtype'));
         } else {
-            $shops = App\Shop::join('shop_types', 'shops.shop_type_id', '=', 'shop_types.id')
+            $shops = App\Models\Shop::join('shop_types', 'shops.shop_type_id', '=', 'shop_types.id')
                 ->where('shops.shop_type_id', '=', $shop_type)
                 ->select('shops.*', 'shop_types.shop_type')
                 ->paginate(10);
@@ -30,17 +30,17 @@ class PagesController extends Controller
 
     public function shop($id)
     {
-        $shops = App\Shop::where('shops.id', $id)
+        $shops = App\Models\Shop::where('shops.id', $id)
             ->join('shop_types', 'shops.shop_type_id', '=', 'shop_types.id')
             ->select('shops.*', 'shop_types.shop_type')
             ->get();
-        $businesshours = App\Shop_business_hours::where('shop_id', $id)->get();
+        $businesshours = App\Models\Shop_business_hours::where('shop_id', $id)->get();
         return view('pages.seeshop', ['shops' => $shops, 'businesshours' => $businesshours]);
     }
 
     public function events()
     {
-        $events = App\Event::orderBy('date', 'desc')
+        $events = App\Models\Event::orderBy('date', 'desc')
             ->paginate(10);
 
         return view('pages.events', ['events' =>  $events]);
@@ -48,7 +48,7 @@ class PagesController extends Controller
 
     public function event($id)
     {
-        $events = App\Event::where('id', $id)->get();
+        $events = App\Models\Event::where('id', $id)->get();
         return view('pages.seeevent', ['events' => $events]);
     }
 
@@ -59,7 +59,7 @@ class PagesController extends Controller
 
     public function jobs()
     {
-        $jobs = App\Job::join('shops', 'jobs.shop_id', '=', 'shops.id')
+        $jobs = App\Models\Job::join('shops', 'jobs.shop_id', '=', 'shops.id')
             ->select('jobs.*', 'shops.name')
             ->paginate(10);
         return view('pages.jobs', ['jobs' =>  $jobs]);
@@ -67,7 +67,7 @@ class PagesController extends Controller
 
     public function job($id)
     {
-        $jobs = App\Job::where('jobs.id', $id)
+        $jobs = App\Models\Job::where('jobs.id', $id)
             ->join('shops', 'jobs.shop_id', '=', 'shops.id')
             ->select('jobs.*', 'shops.name', 'shops.id as shop_id', 'shops.logo_img_link', 'shops.address')
             ->get();
@@ -76,14 +76,14 @@ class PagesController extends Controller
 
     public function rentals()
     {
-        $rentals = App\Rental::paginate(10);
+        $rentals = App\Models\Rental::paginate(10);
 
         return view('pages.rentals', ['rentals' =>  $rentals]);
     }
 
     public function rental($id)
     {
-        $rentals = App\Rental::where('id', $id)->get();
+        $rentals = App\Models\Rental::where('id', $id)->get();
         return view('pages.seerental', ['rentals' => $rentals]);
     }
 

@@ -1,16 +1,17 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Rental extends Model
+class Job extends Model
 {
     protected $fillable = [
         'title',
-        'address',
         'brief_description',
         'full_description',
-        'room_img_link',
+        'shop_id'
     ];
+
+
 }

@@ -1,17 +1,17 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Job extends Model
+class Event extends Model
 {
     protected $fillable = [
         'title',
+        'date',
         'brief_description',
         'full_description',
-        'shop_id'
+        'event_img_link',
+        'small_img_link',
     ];
-
-
 }

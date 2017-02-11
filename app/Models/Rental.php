@@ -1,17 +1,16 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Event extends Model
+class Rental extends Model
 {
     protected $fillable = [
         'title',
-        'date',
+        'address',
         'brief_description',
         'full_description',
-        'event_img_link',
-        'small_img_link',
+        'room_img_link',
     ];
 }

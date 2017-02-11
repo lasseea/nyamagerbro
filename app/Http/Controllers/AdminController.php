@@ -5,13 +5,13 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Routing\Redirector;
-use App\Shop;
-use App\Shop_type;
-use App\Event;
-use App\Job;
-use App\Rental;
-use App\Shop_business_hours;
-use App\Subscriber;
+use App\Models\Shop;
+use App\Models\Shop_type;
+use App\Models\Event;
+use App\Models\Job;
+use App\Models\Rental;
+use App\Models\Shop_business_hours;
+use App\Models\Subscriber;
 use DB;
 use App;
 use Storage;
@@ -19,9 +19,9 @@ use Mail;
 use App\Mail\NewEvent;
 use App\Mail\NewJob;
 use App\Mail\NewRental;
-use App\Event_subscribers;
-use App\Job_subscribers;
-use App\Rental_subscribers;
+use App\Models\Event_subscribers;
+use App\Models\Job_subscribers;
+use App\Models\Rental_subscribers;
 
 class AdminController extends Controller
 {
@@ -197,7 +197,7 @@ class AdminController extends Controller
 
     public function shops()
     {
-        $shops = App\Shop::join('shop_types', 'shops.shop_type_id', '=', 'shop_types.id')
+        $shops = App\Models\Shop::join('shop_types', 'shops.shop_type_id', '=', 'shop_types.id')
             ->select('shops.*', 'shop_types.shop_type')
             ->paginate(10);
         return view('admin.shops', ['shops' =>  $shops]);
@@ -205,9 +205,9 @@ class AdminController extends Controller
 
     public function editFormShop($id)
     {
-        $shops = App\Shop::where('shops.id', $id)
+        $shops = App\Models\Shop::where('shops.id', $id)
             ->get();
-        $businesshours = App\Shop_business_hours::where('shop_id', $id)->get();
+        $businesshours = App\Models\Shop_business_hours::where('shop_id', $id)->get();
         return view('admin.updateshop', ['shops' => $shops, 'businesshours' => $businesshours]);
     }
 
@@ -237,13 +237,13 @@ class AdminController extends Controller
             'saturday_end' => 'date_format:H:i',
             'sunday_end' => 'date_format:H:i',
         ]);
-        $shop = App\Shop::where('id', $id)->first();
+        $shop = App\Models\Shop::where('id', $id)->first();
         $old_image_path = $shop->logo_img_link;
         if($request->hasFile('logo_img_link')) {
             If (file_exists($_SERVER['DOCUMENT_ROOT'] . $old_image_path)) {
                 unlink($_SERVER['DOCUMENT_ROOT'] . $old_image_path);
             }
-            $shop_save = App\Shop::find($id);
+            $shop_save = App\Models\Shop::find($id);
             $shop_image = $request->file('logo_img_link');
             $shop_image->move('shop_logos', $request->name . '_' . $shop_image->getClientOriginalName());
             $shop_save->logo_img_link = '/shop_logos/'.$request->name . '_' . $shop_image->getClientOriginalName();
@@ -255,7 +255,7 @@ class AdminController extends Controller
                 }
             }
         }
-        App\Shop::where('id', $id)
+        App\Models\Shop::where('id', $id)
             ->update(
                 ['name' => $request->name,
                     'address' => $request->address,
@@ -266,7 +266,7 @@ class AdminController extends Controller
                     'shop_type_id' => $request->shop_type,
                 ]);
         if($request->has('monday_start') && $request->has('monday_end')) {
-            App\Shop_business_hours::where([
+            App\Models\Shop_business_hours::where([
                 ['shop_id', $id],
                 ['day_of_week', '=', 0],
             ])
@@ -280,7 +280,7 @@ class AdminController extends Controller
                     ]
             );
         } else {
-            App\Shop_business_hours::where([
+            App\Models\Shop_business_hours::where([
                 ['shop_id', $id],
                 ['day_of_week', '=', 0],
             ])
@@ -295,7 +295,7 @@ class AdminController extends Controller
                 );
         }
         if($request->has('tuesday_start') && $request->has('tuesday_end')) {
-            App\Shop_business_hours::where([
+            App\Models\Shop_business_hours::where([
                 ['shop_id', $id],
                 ['day_of_week', '=', 1],
             ])
@@ -309,7 +309,7 @@ class AdminController extends Controller
                     ]
                 );
         } else {
-            App\Shop_business_hours::where([
+            App\Models\Shop_business_hours::where([
                 ['shop_id', $id],
                 ['day_of_week', '=', 1],
             ])
@@ -324,7 +324,7 @@ class AdminController extends Controller
                 );
         }
         if($request->has('wednesday_start') && $request->has('wednesday_end')) {
-            App\Shop_business_hours::where([
+            App\Models\Shop_business_hours::where([
                 ['shop_id', $id],
                 ['day_of_week', '=', 2],
             ])
@@ -338,7 +338,7 @@ class AdminController extends Controller
                     ]
                 );
         } else {
-            App\Shop_business_hours::where([
+            App\Models\Shop_business_hours::where([
                 ['shop_id', $id],
                 ['day_of_week', '=', 2],
             ])
@@ -353,7 +353,7 @@ class AdminController extends Controller
                 );
         }
         if($request->has('thursday_start') && $request->has('thursday_end')) {
-            App\Shop_business_hours::where([
+            App\Models\Shop_business_hours::where([
                 ['shop_id', $id],
                 ['day_of_week', '=', 3],
             ])
@@ -367,7 +367,7 @@ class AdminController extends Controller
                     ]
                 );
         } else {
-            App\Shop_business_hours::where([
+            App\Models\Shop_business_hours::where([
                 ['shop_id', $id],
                 ['day_of_week', '=', 3],
             ])
@@ -382,7 +382,7 @@ class AdminController extends Controller
                 );
         }
         if($request->has('friday_start') && $request->has('friday_end')) {
-            App\Shop_business_hours::where([
+            App\Models\Shop_business_hours::where([
                 ['shop_id', $id],
                 ['day_of_week', '=', 4],
             ])
@@ -396,7 +396,7 @@ class AdminController extends Controller
                     ]
                 );
         } else {
-            App\Shop_business_hours::where([
+            App\Models\Shop_business_hours::where([
                 ['shop_id', $id],
                 ['day_of_week', '=', 4],
             ])
@@ -411,7 +411,7 @@ class AdminController extends Controller
                 );
         }
         if($request->has('saturday_start') && $request->has('saturday_end')) {
-            App\Shop_business_hours::where([
+            App\Models\Shop_business_hours::where([
                 ['shop_id', $id],
                 ['day_of_week', '=', 5],
             ])
@@ -425,7 +425,7 @@ class AdminController extends Controller
                     ]
                 );
         } else {
-            App\Shop_business_hours::where([
+            App\Models\Shop_business_hours::where([
                 ['shop_id', $id],
                 ['day_of_week', '=', 5],
             ])
@@ -440,7 +440,7 @@ class AdminController extends Controller
                 );
         }
         if($request->has('sunday_start') && $request->has('sunday_end')) {
-            App\Shop_business_hours::where([
+            App\Models\Shop_business_hours::where([
                 ['shop_id', $id],
                 ['day_of_week', '=', 6],
             ])
@@ -454,7 +454,7 @@ class AdminController extends Controller
                     ]
                 );
         } else {
-            App\Shop_business_hours::where([
+            App\Models\Shop_business_hours::where([
                 ['shop_id', $id],
                 ['day_of_week', '=', 6],
             ])
@@ -476,7 +476,7 @@ class AdminController extends Controller
 
     public function deleteShop($id, Request $request)
     {
-        $shop = App\Shop::where('id', $id)->first();
+        $shop = App\Models\Shop::where('id', $id)->first();
         $old_image_path = $shop->logo_img_link;
         If (file_exists($_SERVER['DOCUMENT_ROOT'] . $old_image_path)) {
             unlink($_SERVER['DOCUMENT_ROOT'] . $old_image_path);
@@ -500,7 +500,7 @@ class AdminController extends Controller
             'full_description' => 'required|max:3000',
             'shop_name' => 'required|max:255|exists:shops,name',
         ]);
-        $shop = App\Shop::where('name', $request->shop_name)->first();
+        $shop = App\Models\Shop::where('name', $request->shop_name)->first();
 
         Job::create([
             'title' => $request->title,
@@ -509,7 +509,7 @@ class AdminController extends Controller
             'shop_id' => $shop->id,
         ]);
         //send mail too all job subscribers
-        $job_subscribers = App\Job_subscribers::join('users', 'users.id', '=', 'job_subscribers.user_id')
+        $job_subscribers = App\Models\Job_subscribers::join('users', 'users.id', '=', 'job_subscribers.user_id')
             ->select('users.email')
             ->get();
         foreach ($job_subscribers as $job_subscriber) {
@@ -524,7 +524,7 @@ class AdminController extends Controller
 
     public function jobs()
     {
-        $jobs = App\Job::join('shops', 'jobs.shop_id', '=', 'shops.id')
+        $jobs = App\Models\Job::join('shops', 'jobs.shop_id', '=', 'shops.id')
             ->select('jobs.*', 'shops.name')
             ->paginate(10);
         return view('admin.jobs', ['jobs' =>  $jobs]);
@@ -532,7 +532,7 @@ class AdminController extends Controller
 
     public function editFormJob($id)
     {
-        $jobs = App\Job::where('jobs.id', $id)
+        $jobs = App\Models\Job::where('jobs.id', $id)
             ->join('shops', 'jobs.shop_id', '=', 'shops.id')
             ->select('jobs.*', 'shops.name')
             ->get();
@@ -547,9 +547,9 @@ class AdminController extends Controller
             'full_description' => 'required|max:3000',
             'shop_name' => 'required|max:255|exists:shops,name',
         ]);
-        $shop = App\Shop::where('name', $request->shop_name)->first();
+        $shop = App\Models\Shop::where('name', $request->shop_name)->first();
 
-        App\Job::where('id', $id)
+        App\Models\Job::where('id', $id)
             ->update(
                 ['title' => $request->title,
                 'brief_description' => $request->brief_description,
@@ -597,7 +597,7 @@ class AdminController extends Controller
             'room_img_link' => '/rental_images/'.$request->title.'_'.$room_image->getClientOriginalName(),
         ]);
         //send mail too all rental subscribers
-        $rental_subscribers = App\Rental_subscribers::join('users', 'users.id', '=', 'rental_subscribers.user_id')
+        $rental_subscribers = App\Models\Rental_subscribers::join('users', 'users.id', '=', 'rental_subscribers.user_id')
             ->select('users.email')
             ->get();
         foreach ($rental_subscribers as $rental_subscriber) {
@@ -611,14 +611,14 @@ class AdminController extends Controller
 
     public function rentals()
     {
-        $rentals = App\Rental::paginate(10);
+        $rentals = App\Models\Rental::paginate(10);
 
         return view('admin.rentals', ['rentals' =>  $rentals]);
     }
 
     public function editFormRental($id)
     {
-        $rentals = App\Rental::where('id', $id)->get();
+        $rentals = App\Models\Rental::where('id', $id)->get();
         return view('admin.updaterental', ['rentals' => $rentals]);
     }
 
@@ -631,7 +631,7 @@ class AdminController extends Controller
             'full_description' => 'required|max:3000',
             'room_img_link' => 'image',
         ]);
-        $rental = App\Rental::where('id', $id)->first();
+        $rental = App\Models\Rental::where('id', $id)->first();
         $old_image_path = $rental->room_img_link;
         if($request->hasFile('room_img_link')){
             If (file_exists($_SERVER['DOCUMENT_ROOT'] . $old_image_path)) {
@@ -639,7 +639,7 @@ class AdminController extends Controller
             }
             $room_image = $request->file('room_img_link');
             $room_image->move('rental_images', $request->title.'_'.$room_image->getClientOriginalName());
-            App\Rental::where('id', $id)
+            App\Models\Rental::where('id', $id)
                 ->update(
                     ['title' => $request->title,
                         'address' => $request->address,
@@ -653,7 +653,7 @@ class AdminController extends Controller
                     unlink($_SERVER['DOCUMENT_ROOT'] . $old_image_path);
                 }
             }
-            App\Rental::where('id', $id)
+            App\Models\Rental::where('id', $id)
                 ->update(
                     ['title' => $request->title,
                         'address' => $request->address,
@@ -670,7 +670,7 @@ class AdminController extends Controller
 
     public function deleteRental($id, Request $request)
     {
-        $rental = App\Rental::where('id', $id)->first();
+        $rental = App\Models\Rental::where('id', $id)->first();
         $old_image_path = $rental->room_img_link;
         If (file_exists($_SERVER['DOCUMENT_ROOT'] . $old_image_path)) {
             unlink($_SERVER['DOCUMENT_ROOT'] . $old_image_path);
@@ -716,7 +716,7 @@ class AdminController extends Controller
         ]);
 
         //send mail too all event subscribers
-        $event_subscribers = App\Event_subscribers::join('users', 'users.id', '=', 'event_subscribers.user_id')
+        $event_subscribers = App\Models\Event_subscribers::join('users', 'users.id', '=', 'event_subscribers.user_id')
             ->select('users.email')
             ->get();
         foreach ($event_subscribers as $event_subscriber) {
@@ -731,14 +731,14 @@ class AdminController extends Controller
 
     public function events()
     {
-        $events = App\Event::paginate(10);
+        $events = App\Models\Event::paginate(10);
 
         return view('admin.events', ['events' =>  $events]);
     }
 
     public function editFormEvent($id)
     {
-        $events = App\Event::where('id', $id)->get();
+        $events = App\Models\Event::where('id', $id)->get();
         return view('admin.updateevent', ['events' => $events]);
     }
 
@@ -752,7 +752,7 @@ class AdminController extends Controller
             'event_img_link' => 'image',
             'small_img_link' => 'image',
         ]);
-        $event = App\Event::where('id', $id)->first();
+        $event = App\Models\Event::where('id', $id)->first();
         $old_image_path_event = $event->event_img_link;
         $old_image_path_small = $event->small_img_link;
         if($request->hasFile('event_img_link') && $request->hasFile('small_img_link')){
@@ -766,7 +766,7 @@ class AdminController extends Controller
             $small_image = $request->file('small_img_link');
             $event_image->move('event_images', $request->title.'_'.$event_image->getClientOriginalName());
             $small_image->move('event_small_images', $request->title.'_'.$small_image->getClientOriginalName());
-            App\Event::where('id', $id)
+            App\Models\Event::where('id', $id)
                 ->update(
                     ['title' => $request->title,
                         'date' => $request->date,
@@ -786,7 +786,7 @@ class AdminController extends Controller
             }
             $event_image = $request->file('event_img_link');
             $event_image->move('event_images', $request->title.'_'.$event_image->getClientOriginalName());
-            App\Event::where('id', $id)
+            App\Models\Event::where('id', $id)
                 ->update(
                     ['title' => $request->title,
                         'date' => $request->date,
@@ -805,7 +805,7 @@ class AdminController extends Controller
             }
             $small_image = $request->file('small_img_link');
             $small_image->move('event_small_images', $request->title.'_'.$small_image->getClientOriginalName());
-            App\Event::where('id', $id)
+            App\Models\Event::where('id', $id)
                 ->update(
                     ['title' => $request->title,
                         'date' => $request->date,
@@ -824,7 +824,7 @@ class AdminController extends Controller
                         unlink($_SERVER['DOCUMENT_ROOT'] . $old_image_path_small);
                     }
                 }
-                App\Event::where('id', $id)
+                App\Models\Event::where('id', $id)
                     ->update(
                         ['title' => $request->title,
                             'date' => $request->date,
@@ -841,7 +841,7 @@ class AdminController extends Controller
 
     public function deleteEvent($id, Request $request)
     {
-        $event = App\Event::where('id', $id)->first();
+        $event = App\Models\Event::where('id', $id)->first();
         $event_image_path = $event->event_img_link;
         $small_image_path = $event->small_img_link;
         If (file_exists($_SERVER['DOCUMENT_ROOT'] . $event_image_path)) {
